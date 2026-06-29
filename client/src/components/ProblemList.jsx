@@ -20,7 +20,7 @@ function getDifficultyBadgeClass(difficulty) {
   return "bg-pink-500/20 text-pink-300";
 }
 
-function ProblemList({ problems, onDelete, onUpdate }) {
+function ProblemList({ problems, onDelete, onUpdate, readOnly = false }) {
 
   const [editingId, setEditingId] = useState(null);
 
@@ -161,14 +161,16 @@ function ProblemList({ problems, onDelete, onUpdate }) {
                 {problem.notes && (
                   <div className="text-[0.78rem] text-slate-400 bg-violet-500/8 border border-violet-500/12 rounded-lg p-2 leading-relaxed">📝 {problem.notes}</div>
                 )}
-                <div className="flex gap-2 mt-auto pt-2.5 border-t border-violet-500/10">
-                  <button onClick={() => startEdit(problem)} className="flex-1 inline-flex items-center justify-center gap-1 font-semibold text-[0.78rem] py-1.5 px-2 rounded-lg border cursor-pointer transition-all duration-250 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 bg-blue-500/20 text-blue-300 border-blue-500/30 hover:bg-blue-500/30 hover:border-blue-500/50">
-                    ✏️ Edit
-                  </button>
-                  <button onClick={() => handleDelete(problem._id)} className="flex-1 inline-flex items-center justify-center gap-1 font-semibold text-[0.78rem] py-1.5 px-2 rounded-lg border cursor-pointer transition-all duration-250 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 bg-pink-500/15 text-pink-300 border-pink-500/30 hover:bg-pink-500/25 hover:border-pink-500/50">
-                    🗑️ Delete
-                  </button>
-                </div>
+                {!readOnly && (
+                  <div className="flex gap-2 mt-auto pt-2.5 border-t border-violet-500/10">
+                    <button onClick={() => startEdit(problem)} className="flex-1 inline-flex items-center justify-center gap-1 font-semibold text-[0.78rem] py-1.5 px-2 rounded-lg border cursor-pointer transition-all duration-250 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 bg-blue-500/20 text-blue-300 border-blue-500/30 hover:bg-blue-500/30 hover:border-blue-500/50">
+                      ✏️ Edit
+                    </button>
+                    <button onClick={() => handleDelete(problem._id)} className="flex-1 inline-flex items-center justify-center gap-1 font-semibold text-[0.78rem] py-1.5 px-2 rounded-lg border cursor-pointer transition-all duration-250 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 bg-pink-500/15 text-pink-300 border-pink-500/30 hover:bg-pink-500/25 hover:border-pink-500/50">
+                      🗑️ Delete
+                    </button>
+                  </div>
+                )}
               </>
             )}
 

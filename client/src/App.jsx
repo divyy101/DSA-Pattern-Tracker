@@ -28,6 +28,13 @@ function App() {
   const [search, setSearch] = useState("");
   const [pattern, setPattern] = useState("All");
   const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem("isLoggedIn") === "true");
+  const [user, setUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "{}");
+    } catch {
+      return {};
+    }
+  });
   const navigate = useNavigate();
 
   async function fetchProblems() {
@@ -60,6 +67,7 @@ function App() {
     setIsLoggedIn(true);
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
     navigate("/dashboard");
   }
 
@@ -67,6 +75,7 @@ function App() {
     setIsLoggedIn(false);
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("user");
+    setUser({});
     navigate("/");
   }
 
@@ -199,13 +208,11 @@ function App() {
                 <main className="max-w-[920px] mx-auto px-5 py-7 pb-12">
                   <div className="animate-page-ease-in" key="problems">
                     <div className="mb-6 animate-slide-in-left">
-                      <h1 className="text-2xl font-bold text-slate-200 mb-1">📋 All Problems</h1>
+                      <h1 className="text-2xl font-bold text-slate-200 mb-1">📋 {user?.name || "Coder"}'s Problems</h1>
                       <p className="text-[0.88rem] text-slate-400">
-                        Browse, search, and manage all your tracked DSA problems.
+                        View your list of solved and unsolved problems.
                       </p>
                     </div>
-
-                    <ProblemForm onAdd={fetchProblems} />
 
                     <div className="flex flex-col sm:flex-row gap-3 mb-6 animate-fade-slide-up">
                       <input
@@ -227,8 +234,7 @@ function App() {
 
                     <ProblemList
                       problems={filteredProblems}
-                      onDelete={fetchProblems}
-                      onUpdate={fetchProblems}
+                      readOnly={true}
                     />
                   </div>
                 </main>
