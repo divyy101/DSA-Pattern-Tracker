@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import homeBg from "../assets/home-bg.png";
 
-function Home({ isLoggedIn, onNavigate }) {
+function Home({ isLoggedIn }) {
+  const navigate = useNavigate();
+
   return (
     <div
       style={{ backgroundImage: `url(${homeBg})` }}
@@ -17,7 +20,7 @@ function Home({ isLoggedIn, onNavigate }) {
 
         {isLoggedIn ? (
           <button
-            onClick={() => onNavigate("dashboard")}
+            onClick={() => navigate("/dashboard")}
             className="inline-flex items-center justify-center gap-2 font-bold text-[0.9rem] py-3 px-8 rounded-xl cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1 bg-gradient-to-r from-violet-500 to-indigo-600 text-white shadow-[0_4px_14px_rgba(139,92,246,0.4)] hover:shadow-[0_8px_24px_rgba(139,92,246,0.6)]"
           >
             Enter Dashboard 🚀
@@ -25,13 +28,13 @@ function Home({ isLoggedIn, onNavigate }) {
         ) : (
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
-              onClick={() => onNavigate("login")}
+              onClick={() => navigate("/login")}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-bold text-[0.9rem] py-3 px-8 rounded-xl cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1 bg-gradient-to-r from-violet-500 to-indigo-600 text-white shadow-[0_4px_14px_rgba(139,92,246,0.4)] hover:shadow-[0_8px_24px_rgba(139,92,246,0.6)]"
             >
               Sign In 🔑
             </button>
             <button
-              onClick={() => onNavigate("register")}
+              onClick={() => navigate("/register")}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-bold text-[0.9rem] py-3 px-8 rounded-xl cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1 bg-gradient-to-r from-violet-500/20 to-fuchsia-600/20 hover:from-violet-500/30 hover:to-fuchsia-600/30 text-fuchsia-300 border border-fuchsia-500/40 rounded-xl"
             >
               Register 📝

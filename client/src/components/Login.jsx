@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api";
 
-function Login({ onLogin, onNavigate }) {
+function Login({ onLogin }) {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -87,14 +89,14 @@ function Login({ onLogin, onNavigate }) {
 
         <div className="flex items-center justify-between mt-6 pt-4 border-t border-violet-500/10">
           <button
-            onClick={() => onNavigate("home")}
+            onClick={() => navigate("/")}
             disabled={loading}
             className="text-[0.78rem] text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
           >
             ← Back to Home
           </button>
           <button
-            onClick={() => onNavigate("register")}
+            onClick={() => navigate("/register")}
             disabled={loading}
             className="text-[0.78rem] text-violet-400 hover:text-violet-200 transition-colors cursor-pointer"
           >

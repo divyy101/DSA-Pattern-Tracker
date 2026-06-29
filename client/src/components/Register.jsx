@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api";
 
-function Register({ onNavigate }) {
+function Register() {
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,7 +31,7 @@ function Register({ onNavigate }) {
       setSuccess("Registration successful! Redirecting to login in 3 seconds...");
 
       setTimeout(() => {
-        onNavigate("login");
+        navigate("/login");
       }, 3000);
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed. Please try again.");
@@ -114,14 +116,14 @@ function Register({ onNavigate }) {
 
         <div className="flex items-center justify-between mt-6 pt-4 border-t border-violet-500/10">
           <button
-            onClick={() => onNavigate("home")}
+            onClick={() => navigate("/")}
             disabled={loading || success}
             className="text-[0.78rem] text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
           >
             ← Back to Home
           </button>
           <button
-            onClick={() => onNavigate("login")}
+            onClick={() => navigate("/login")}
             disabled={loading || success}
             className="text-[0.78rem] text-violet-400 hover:text-violet-200 transition-colors cursor-pointer"
           >
