@@ -128,62 +128,129 @@ function App() {
               <div className="flex-1 bg-gradient-to-br from-[#0c0f1d] via-[#11172e] to-[#090b16] min-h-[calc(100vh-68px)]">
                 <main className="max-w-[920px] mx-auto px-5 py-7 pb-12">
                   <div className="animate-page-ease-in" key="dashboard">
-                    <div className="animate-fade-slide-up bg-[#0f1428]/70 backdrop-blur-md border border-violet-500/20 rounded-xl px-7 py-6 mb-6 hover:border-violet-500/35 hover:shadow-[0_2px_16px_rgba(139,92,246,0.08)] transition-all duration-300">
-                      <h2 className="text-[1.2rem] font-bold text-slate-200 mb-1">👋 Welcome back!</h2>
-                      <p className="text-[0.88rem] text-slate-400">
-                        Keep grinding — every problem you solve gets you closer to
-                        cracking the next interview. 💪
-                      </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                      <div className="group transition-all duration-350 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1 hover:shadow-[0_8px_28px_rgba(139,92,246,0.18)] hover:border-violet-500/30 p-4.5 rounded-xl border border-violet-500/15 bg-[#0f1428]/70 backdrop-blur-md animate-fade-slide-up delay-50 border-t-[3px] border-t-blue-400">
-                        <span className="block text-[1.85rem] font-bold transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-108 text-blue-400">{problems.length}</span>
-                        <span className="block text-[0.78rem] font-medium text-slate-400 mt-0.5">Total Problems</span>
-                      </div>
-                      <div className="group transition-all duration-350 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1 hover:shadow-[0_8px_28px_rgba(139,92,246,0.18)] hover:border-violet-500/30 p-4.5 rounded-xl border border-violet-500/15 bg-[#0f1428]/70 backdrop-blur-md animate-fade-slide-up delay-100 border-t-[3px] border-t-emerald-400">
-                        <span className="block text-[1.85rem] font-bold transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-108 text-emerald-400">{solvedCount}</span>
-                        <span className="block text-[0.78rem] font-medium text-slate-400 mt-0.5">Solved</span>
-                      </div>
-                      <div className="group transition-all duration-350 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1 hover:shadow-[0_8px_28px_rgba(139,92,246,0.18)] hover:border-violet-500/30 p-4.5 rounded-xl border border-violet-500/15 bg-[#0f1428]/70 backdrop-blur-md animate-fade-slide-up delay-200 border-t-[3px] border-t-pink-400">
-                        <span className="block text-[1.85rem] font-bold transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-108 text-pink-400">{problems.length - solvedCount}</span>
-                        <span className="block text-[0.78rem] font-medium text-slate-400 mt-0.5">Unsolved</span>
-                      </div>
-                    </div>
-
-                    {problems.length > 0 && (
-                      <div className="mb-6 bg-[#0f1428]/70 backdrop-blur-md border border-violet-500/15 rounded-xl p-5 hover:border-violet-500/30 hover:shadow-[0_2px_16px_rgba(139,92,246,0.08)] transition-all duration-300 animate-fade-slide-up delay-[80ms]">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="text-[0.8rem] font-medium text-slate-400">Your Progress</span>
-                          <strong className="text-[0.8rem] font-bold text-emerald-400">{percentage}% solved</strong>
+                    
+                    {/* Welcome Banner */}
+                    <div className="relative overflow-hidden bg-gradient-to-r from-[#131b3e] via-[#1a2356] to-[#0f1428] border border-violet-500/25 rounded-2xl p-6 md:p-8 mb-6 hover:border-violet-500/40 hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] transition-all duration-300 group">
+                      <div className="absolute top-0 right-0 w-64 h-64 bg-radial from-violet-600/15 to-transparent rounded-full blur-2xl pointer-events-none transition-transform duration-700 group-hover:translate-x-4" />
+                      <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-violet-500/10 text-violet-300 border border-violet-500/20 mb-3 uppercase tracking-wider">
+                            ✨ Progress Active
+                          </span>
+                          <h2 className="text-xl md:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-indigo-200 mb-1">
+                            👋 Welcome back, {user?.name || "Coder"}!
+                          </h2>
+                          <p className="text-sm text-slate-300 max-w-xl">
+                            Keep grinding — every problem you solve gets you closer to cracking the next interview. 💪
+                          </p>
                         </div>
-                        <div className="w-full h-2.5 bg-violet-500/10 rounded-full overflow-hidden">
+                        <div className="hidden md:flex flex-col items-end shrink-0">
+                          <span className="text-xs text-slate-400 font-medium">Solved Percentage</span>
+                          <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-emerald-400">{percentage}%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-6">
+                      <div className="group relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(59,130,246,0.12)] hover:border-blue-500/40 p-5 rounded-2xl border border-slate-800/80 bg-gradient-to-b from-[#0f1428] to-[#0b0e1d] backdrop-blur-md">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-radial from-blue-500/5 to-transparent rounded-full pointer-events-none" />
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-xs font-semibold text-slate-400 tracking-wide uppercase">Total Problems</span>
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-blue-500/10 text-blue-400 border border-blue-500/25">
+                            📚
+                          </div>
+                        </div>
+                        <span className="block text-3xl font-extrabold text-slate-100 group-hover:text-blue-400 transition-colors duration-300">{problems.length}</span>
+                        <span className="block text-xs font-medium text-slate-500 mt-1">Categorized patterns</span>
+                      </div>
+
+                      <div className="group relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(16,185,129,0.12)] hover:border-emerald-500/40 p-5 rounded-2xl border border-slate-800/80 bg-gradient-to-b from-[#0f1428] to-[#0b0e1d] backdrop-blur-md">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-radial from-emerald-500/5 to-transparent rounded-full pointer-events-none" />
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-xs font-semibold text-slate-400 tracking-wide uppercase">Solved</span>
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+                            🏆
+                          </div>
+                        </div>
+                        <span className="block text-3xl font-extrabold text-slate-100 group-hover:text-emerald-400 transition-colors duration-300">{solvedCount}</span>
+                        <span className="block text-xs font-medium text-slate-500 mt-1">
+                          {problems.length > 0 ? `${Math.round((solvedCount / problems.length) * 100)}% of total` : "No problems"}
+                        </span>
+                      </div>
+
+                      <div className="group relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(244,63,94,0.12)] hover:border-rose-500/40 p-5 rounded-2xl border border-slate-800/80 bg-gradient-to-b from-[#0f1428] to-[#0b0e1d] backdrop-blur-md">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-radial from-rose-500/5 to-transparent rounded-full pointer-events-none" />
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-xs font-semibold text-slate-400 tracking-wide uppercase">Unsolved</span>
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-rose-500/10 text-rose-400 border border-rose-500/25">
+                            🔥
+                          </div>
+                        </div>
+                        <span className="block text-3xl font-extrabold text-slate-100 group-hover:text-rose-400 transition-colors duration-300">{problems.length - solvedCount}</span>
+                        <span className="block text-xs font-medium text-slate-500 mt-1">Pending review</span>
+                      </div>
+                    </div>
+
+                    {/* Progress Bar */}
+                    {problems.length > 0 && (
+                      <div className="mb-6 bg-gradient-to-r from-[#0f1428] to-[#121834] border border-violet-500/20 rounded-2xl p-5 hover:border-violet-500/30 hover:shadow-[0_4px_20px_rgba(139,92,246,0.08)] transition-all duration-300">
+                        <div className="flex justify-between items-center mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                            <span className="text-xs font-semibold text-slate-300 tracking-wide uppercase">Consistency Bar</span>
+                          </div>
+                          <strong className="text-sm font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">{percentage}% Solved</strong>
+                        </div>
+                        <div className="w-full h-3 bg-slate-950/65 rounded-full overflow-hidden p-0.5 border border-violet-500/10 shadow-inner">
                           <div
-                            className="h-full rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-400 transition-all duration-800 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                            className="h-full rounded-full bg-gradient-to-r from-violet-600 via-indigo-500 to-emerald-400 transition-all duration-1000 ease-[cubic-bezier(0.34,1.56,0.64,1)] relative shadow-[0_0_8px_rgba(16,185,129,0.4)]"
                             style={{ width: `${percentage}%` }}
-                          />
+                          >
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[pulse_2s_infinite]" />
+                          </div>
+                        </div>
+                        <div className="flex justify-between mt-2.5 text-[0.7rem] text-slate-500 font-semibold uppercase tracking-wider">
+                          <span>0% Begin</span>
+                          <span>50% Intermediate</span>
+                          <span>100% Master</span>
                         </div>
                       </div>
                     )}
 
                     <ProblemForm onAdd={fetchProblems} />
 
-                    <div className="flex flex-col sm:flex-row gap-3 mb-6 animate-fade-slide-up delay-[150ms]">
-                      <input
-                        placeholder="🔍  Search problems..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="flex-1 border-[1.5px] border-violet-500/30 rounded-lg py-2 px-3.5 text-[0.85rem] font-medium text-slate-200 bg-[#0f1428]/60 outline-none transition-all duration-300 hover:border-violet-500/50 focus:border-violet-500 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.2)] focus:bg-[#0f1428]/75 placeholder-slate-500"
-                      />
-                      <select
-                        value={pattern}
-                        onChange={(e) => setPattern(e.target.value)}
-                        className="border-[1.5px] border-violet-500/30 rounded-lg py-2 px-3.5 text-[0.85rem] font-medium text-slate-200 bg-[#0f1428]/60 outline-none transition-all duration-300 hover:border-violet-500/50 focus:border-violet-500 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.2)] focus:bg-[#0f1428]/75 cursor-pointer"
-                      >
-                        {PATTERNS.map((p) => (
-                          <option key={p} className="bg-indigo-950 text-slate-200">{p}</option>
-                        ))}
-                      </select>
+                    {/* Search & Filters */}
+                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                      <div className="relative flex-1 group">
+                        <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-violet-400 transition-colors duration-200">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                        </span>
+                        <input
+                          placeholder="Search by problem name..."
+                          value={search}
+                          onChange={(e) => setSearch(e.target.value)}
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-800 text-sm font-medium text-slate-200 bg-[#0f1428]/60 placeholder-slate-500 outline-none transition-all duration-300 hover:border-slate-700 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 focus:bg-[#0f1428]"
+                        />
+                      </div>
+                      <div className="relative group min-w-[200px]">
+                        <select
+                          value={pattern}
+                          onChange={(e) => setPattern(e.target.value)}
+                          className="w-full px-4 pr-10 py-2.5 rounded-xl border border-slate-800 text-sm font-medium text-slate-200 bg-[#0f1428]/60 outline-none transition-all duration-300 hover:border-slate-700 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 focus:bg-[#0f1428] cursor-pointer appearance-none"
+                        >
+                          {PATTERNS.map((p) => (
+                            <option key={p} className="bg-[#0f1428] text-slate-200">{p === "All" ? "Filter by Pattern (All)" : p}</option>
+                          ))}
+                        </select>
+                        <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none group-hover:text-slate-300">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </span>
+                      </div>
                     </div>
 
                     <ProblemList
@@ -214,22 +281,37 @@ function App() {
                       </p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-3 mb-6 animate-fade-slide-up">
-                      <input
-                        placeholder="🔍  Search problems..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="flex-1 border-[1.5px] border-violet-500/30 rounded-lg py-2 px-3.5 text-[0.85rem] font-medium text-slate-200 bg-[#0f1428]/60 outline-none transition-all duration-300 hover:border-violet-500/50 focus:border-violet-500 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.2)] focus:bg-[#0f1428]/75 placeholder-slate-500"
-                      />
-                      <select
-                        value={pattern}
-                        onChange={(e) => setPattern(e.target.value)}
-                        className="border-[1.5px] border-violet-500/30 rounded-lg py-2 px-3.5 text-[0.85rem] font-medium text-slate-200 bg-[#0f1428]/60 outline-none transition-all duration-300 hover:border-violet-500/50 focus:border-violet-500 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.2)] focus:bg-[#0f1428]/75 cursor-pointer"
-                      >
-                        {PATTERNS.map((p) => (
-                          <option key={p} className="bg-indigo-950 text-slate-200">{p}</option>
-                        ))}
-                      </select>
+                    {/* Search & Filters */}
+                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                      <div className="relative flex-1 group">
+                        <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-violet-400 transition-colors duration-200">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                        </span>
+                        <input
+                          placeholder="Search by problem name..."
+                          value={search}
+                          onChange={(e) => setSearch(e.target.value)}
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-800 text-sm font-medium text-slate-200 bg-[#0f1428]/60 placeholder-slate-500 outline-none transition-all duration-300 hover:border-slate-700 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 focus:bg-[#0f1428]"
+                        />
+                      </div>
+                      <div className="relative group min-w-[200px]">
+                        <select
+                          value={pattern}
+                          onChange={(e) => setPattern(e.target.value)}
+                          className="w-full px-4 pr-10 py-2.5 rounded-xl border border-slate-800 text-sm font-medium text-slate-200 bg-[#0f1428]/60 outline-none transition-all duration-300 hover:border-slate-700 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 focus:bg-[#0f1428] cursor-pointer appearance-none"
+                        >
+                          {PATTERNS.map((p) => (
+                            <option key={p} className="bg-[#0f1428] text-slate-200">{p === "All" ? "Filter by Pattern (All)" : p}</option>
+                          ))}
+                        </select>
+                        <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none group-hover:text-slate-300">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </span>
+                      </div>
                     </div>
 
                     <ProblemList

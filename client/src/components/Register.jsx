@@ -108,7 +108,7 @@ function Register() {
           <button
             type="submit"
             disabled={loading || success}
-            className="w-full inline-flex items-center justify-center font-bold text-[0.85rem] py-2.5 px-4.5 rounded-lg border-none cursor-pointer transition-all duration-250 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 bg-gradient-to-r from-violet-500 to-indigo-600 text-white shadow-[0_2px_8px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_20px_rgba(139,92,246,0.45)] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full inline-flex items-center justify-center font-bold text-[0.85rem] py-2.5 px-4.5 rounded-none border-2 border-violet-500/70 hover:border-violet-400 cursor-pointer transition-all duration-250 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] bg-gradient-to-r from-violet-600 to-indigo-700 text-white shadow-[0_3px_12px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_22px_rgba(139,92,246,0.5)] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Registering..." : "Register"}
           </button>

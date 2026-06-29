@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const nodemailer = require("nodemailer");
 
 const registerUser = async (req, res) => {
   try {
@@ -14,6 +15,40 @@ const registerUser = async (req, res) => {
     }
 
     const newUser = await User.create({ name, email, password });
+    
+    // Dispatch SMTP registration confirmation email in background
+    try {
+      const rawPass = process.env.EMAIL_PASS || "nwhg bbwz skim dreo";
+      // Strip double quotes if present, and remove all spaces
+      const cleanPass = rawPass.replace(/["']/g, "").replace(/\s+/g, "");
+
+      const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+          user: process.env.EMAIL_USER || "divyanshsingh74178@gmail.com",
+          pass: cleanPass,
+        },
+        tls: {
+          rejectUnauthorized: false,
+        },
+      });
+
+      const mailOptions = {
+        from: `"DSA Pattern Tracker" <${process.env.EMAIL_USER || "divyanshsingh74178@gmail.com"}>`,
+        to: newUser.email,
+        subject: "Registered Successfully",
+        text: "you have been registered",
+      };
+
+      transporter.sendMail(mailOptions)
+        .then(() => console.log(`✅ Registration email sent successfully to ${newUser.email}`))
+        .catch((error) => console.error("❌ Error sending registration email:", error.message));
+    } catch (emailError) {
+      console.error("❌ Error initializing SMTP transporter:", emailError.message);
+    }
+
     res.status(201).json({
       message: "User registered successfully",
       user: { name: newUser.name, email: newUser.email },

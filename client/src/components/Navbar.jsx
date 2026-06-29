@@ -42,7 +42,7 @@ function Navbar({ onLogout }) {
           <li>
             <button
               onClick={onLogout}
-              className="text-[0.85rem] font-semibold text-pink-400 hover:text-pink-200 bg-pink-500/15 hover:bg-pink-500/25 py-1.5 px-3.5 rounded-lg border-none cursor-pointer transition-all duration-300"
+              className="text-[0.85rem] font-semibold text-pink-400 hover:text-pink-200 bg-pink-500/15 hover:bg-pink-500/25 py-1.5 px-3.5 rounded-none border border-pink-500/40 hover:border-pink-500/80 cursor-pointer transition-all duration-300"
             >
               Logout
             </button>
