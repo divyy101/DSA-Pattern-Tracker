@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-page-ease-in: pageEaseIn 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-slide-in-left: slideInFromLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-fade-slide-up: fadeSlideUp 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-shake-in: shakeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-gentle-bounce: gentleBounce 2s ease-in-out infinite;
+  --animate-pulse-glow: pulseGlow 3s ease-in-out infinite;
+
+  @keyframes pageEaseIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideInFromLeft {
+    from { opacity: 0; transform: translateX(-16px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shakeIn {
+    0%   { opacity: 0; transform: translateX(-8px); }
+    40%  { transform: translateX(4px); }
+    70%  { transform: translateX(-2px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes gentleBounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+    50%      { opacity: 1;   transform: translateX(-50%) scale(1.08); }
+  }
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #0b0f1a;
+  color: #e2e8f0;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
