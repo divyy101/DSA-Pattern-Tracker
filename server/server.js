@@ -99,7 +99,20 @@ if (process.env.NODE_ENV !== "production") {
     server.on("error", (error) => {
       if (error.code === "EADDRINUSE") {
         if (retriesLeft > 0) {
-          console.warn(`⚠️ Port ${targetPort} is in use, retrying in 1s... (${retriesLeft} retries left)`);
+          console.warn(`⚠️ Port ${targetPort} is in use, attempting to free it... (${retriesLeft} retries left)`);
+          
+          try {
+            const { execSync } = require('child_process');
+            if (process.platform === 'win32') {
+              execSync(`Stop-Process -Id (Get-NetTCPConnection -LocalPort ${targetPort}).OwningProcess -Force`, { shell: 'powershell.exe', stdio: 'ignore' });
+            } else {
+              execSync(`kill -9 $(lsof -t -i:${targetPort})`, { stdio: 'ignore' });
+            }
+            console.log(`✅ Automatically freed port ${targetPort}`);
+          } catch (e) {
+            // Ignore errors if process is already dead or no permissions
+          }
+
           try {
             server.close();
           } catch (e) {}
@@ -107,14 +120,7 @@ if (process.env.NODE_ENV !== "production") {
             startServer(targetPort, retriesLeft - 1);
           }, 1000);
         } else {
-          console.error(`\n❌ Error: Port ${targetPort} is already in use after multiple retries.`);
-          if (process.platform === "win32") {
-            console.error(`👉 To free the port on Windows, run the following command in PowerShell:`);
-            console.error(`   Stop-Process -Id (Get-NetTCPConnection -LocalPort ${targetPort}).OwningProcess -Force\n`);
-          } else {
-            console.error(`👉 To free the port on Mac/Linux, run:`);
-            console.error(`   kill -9 $(lsof -t -i:${targetPort})\n`);
-          }
+          console.error(`\n❌ Error: Port ${targetPort} is still in use after auto-kill attempts. Please restart your computer or kill it manually.`);
           process.exit(1);
         }
       } else {
