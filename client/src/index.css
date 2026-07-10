@@ -1,38 +1,60 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @theme {
-  --animate-page-ease-in: pageEaseIn 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
-  --animate-slide-in-left: slideInFromLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
-  --animate-fade-slide-up: fadeSlideUp 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
-  --animate-shake-in: shakeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
-  --animate-gentle-bounce: gentleBounce 2s ease-in-out infinite;
+  --animate-page-ease-in: pageEaseIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-in-left: slideInFromLeft 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-slide-up: fadeSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-shake-in: shakeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-gentle-bounce: gentleBounce 2.5s ease-in-out infinite;
   --animate-pulse-glow: pulseGlow 3s ease-in-out infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-scale-in: scaleIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-glow-pulse: glowPulse 2s ease-in-out infinite;
 
   @keyframes pageEaseIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(16px) scale(0.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
   @keyframes slideInFromLeft {
-    from { opacity: 0; transform: translateX(-16px); }
+    from { opacity: 0; transform: translateX(-20px); }
     to { opacity: 1; transform: translateX(0); }
   }
   @keyframes fadeSlideUp {
-    from { opacity: 0; transform: translateY(14px); }
+    from { opacity: 0; transform: translateY(16px); }
     to { opacity: 1; transform: translateY(0); }
   }
   @keyframes shakeIn {
-    0%   { opacity: 0; transform: translateX(-8px); }
-    40%  { transform: translateX(4px); }
-    70%  { transform: translateX(-2px); }
+    0%   { opacity: 0; transform: translateX(-10px); }
+    40%  { transform: translateX(5px); }
+    70%  { transform: translateX(-3px); }
     100% { opacity: 1; transform: translateX(0); }
   }
   @keyframes gentleBounce {
     0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-6px); }
+    50%      { transform: translateY(-8px); }
   }
   @keyframes pulseGlow {
-    0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
-    50%      { opacity: 1;   transform: translateX(-50%) scale(1.08); }
+    0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+    50%      { opacity: 1;   transform: translateX(-50%) scale(1.1); }
+  }
+  @keyframes shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33%      { transform: translateY(-8px) rotate(1deg); }
+    66%      { transform: translateY(4px) rotate(-1deg); }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(139, 92, 246, 0.15); }
+    50%      { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
   }
 }
 
@@ -42,10 +64,43 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: #0b0f1a;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #060911;
   color: #e2e8f0;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.25);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.4);
+}
+
+/* Selection */
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: #f1f5f9;
+}
+
+/* Focus-visible for keyboard users */
+:focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.5);
+  outline-offset: 2px;
 }
