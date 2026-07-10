@@ -101,7 +101,7 @@ function ProblemList({ problems, onDelete, onUpdate, readOnly = false }) {
       <div
         key={problem._id}
         style={{ animationDelay: `${animationIndex * 40}ms` }}
-        className="group/card bg-[#0c1024]/60 backdrop-blur-xl border border-white/[0.06] rounded-2xl p-5 flex flex-col gap-3.5 transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.25),0_0_0_1px_rgba(139,92,246,0.08)] hover:border-white/[0.1] animate-fade-slide-up relative overflow-hidden"
+        className="group/card bg-[#0c1024]/70 backdrop-blur-3xl border border-white/[0.08] rounded-3xl p-6 flex flex-col gap-4 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[0_24px_50px_rgba(0,0,0,0.4),0_0_0_1px_rgba(139,92,246,0.15)_inset] hover:border-white/[0.15] animate-fade-slide-up relative overflow-hidden"
       >
         {/* Subtle top accent line */}
         <div className="absolute top-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />

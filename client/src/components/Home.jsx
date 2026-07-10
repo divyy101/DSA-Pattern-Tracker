@@ -14,10 +14,10 @@ function Home({ isLoggedIn }) {
 
       <div className="relative z-10 max-w-lg w-full">
         {/* Main Card */}
-        <div className="bg-[#0c1024]/80 backdrop-blur-2xl border border-white/[0.08] rounded-3xl p-10 md:p-12 text-center shadow-[0_24px_64px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.03)_inset] relative overflow-hidden">
+        <div className="bg-[#0c1024]/70 backdrop-blur-3xl border border-white/[0.12] rounded-3xl p-10 md:p-14 text-center shadow-[0_32px_80px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.05)_inset] relative overflow-hidden transition-all duration-500 hover:shadow-[0_40px_100px_rgba(139,92,246,0.15)]">
           {/* Decorative gradient orbs */}
-          <div className="absolute -top-20 -right-20 w-48 h-48 bg-violet-500/15 rounded-full blur-3xl pointer-events-none animate-float" />
-          <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-fuchsia-500/10 rounded-full blur-3xl pointer-events-none animate-float" style={{ animationDelay: "2s" }} />
+          <div className="absolute -top-20 -right-20 w-56 h-56 bg-violet-600/20 rounded-full blur-[80px] pointer-events-none animate-float" />
+          <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-fuchsia-600/15 rounded-full blur-[80px] pointer-events-none animate-float" style={{ animationDelay: "2s" }} />
 
           {/* Badge */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[0.68rem] font-bold bg-violet-500/[0.08] text-violet-300 border border-violet-500/15 mb-6 uppercase tracking-widest">
@@ -29,10 +29,10 @@ function Home({ isLoggedIn }) {
           <span className="text-5xl block mb-5 animate-gentle-bounce drop-shadow-[0_4px_12px_rgba(139,92,246,0.25)]">🧠</span>
 
           {/* Title */}
-          <h1 className="text-[2rem] md:text-[2.5rem] font-black leading-[1.15] text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-100 to-violet-200 mb-4 tracking-tight">
+          <h1 className="text-[2.2rem] md:text-[3rem] font-black leading-[1.15] text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-100 to-violet-200 mb-5 tracking-tight drop-shadow-[0_2px_10px_rgba(255,255,255,0.1)]">
             DSA Pattern
             <br />
-            <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-indigo-400 bg-clip-text text-transparent">Tracker</span>
+            <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(139,92,246,0.3)]">Tracker</span>
           </h1>
 
           {/* Subtitle */}
@@ -44,21 +44,21 @@ function Home({ isLoggedIn }) {
           {isLoggedIn ? (
             <button
               onClick={() => navigate("/dashboard")}
-              className="group inline-flex items-center justify-center gap-2.5 font-bold text-[0.88rem] py-3.5 px-10 rounded-2xl cursor-pointer transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 active:translate-y-0 active:scale-[0.98] bg-gradient-to-r from-violet-600 via-violet-500 to-indigo-600 text-white shadow-[0_4px_16px_rgba(139,92,246,0.35),inset_0_1px_0_rgba(255,255,255,0.1)] hover:shadow-[0_8px_32px_rgba(139,92,246,0.5),inset_0_1px_0_rgba(255,255,255,0.15)] border border-violet-400/20"
+              className="group inline-flex items-center justify-center gap-2.5 font-bold text-[0.95rem] py-4 px-12 rounded-2xl cursor-pointer transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 active:translate-y-0 active:scale-[0.97] bg-gradient-to-r from-violet-600 via-fuchsia-600 to-indigo-600 text-white shadow-[0_8px_24px_rgba(139,92,246,0.4),inset_0_1px_0_rgba(255,255,255,0.2)] hover:shadow-[0_12px_40px_rgba(139,92,246,0.6),inset_0_1px_0_rgba(255,255,255,0.3)] border border-violet-400/30"
             >
               Enter Dashboard
-              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </button>
           ) : (
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
                 onClick={() => navigate("/login")}
-                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 font-bold text-[0.88rem] py-3.5 px-8 rounded-2xl cursor-pointer transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 active:translate-y-0 active:scale-[0.98] bg-gradient-to-r from-violet-600 via-violet-500 to-indigo-600 text-white shadow-[0_4px_16px_rgba(139,92,246,0.35),inset_0_1px_0_rgba(255,255,255,0.1)] hover:shadow-[0_8px_32px_rgba(139,92,246,0.5),inset_0_1px_0_rgba(255,255,255,0.15)] border border-violet-400/20"
+                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 font-bold text-[0.95rem] py-4 px-10 rounded-2xl cursor-pointer transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 active:translate-y-0 active:scale-[0.97] bg-gradient-to-r from-violet-600 via-fuchsia-600 to-indigo-600 text-white shadow-[0_8px_24px_rgba(139,92,246,0.4),inset_0_1px_0_rgba(255,255,255,0.2)] hover:shadow-[0_12px_40px_rgba(139,92,246,0.6),inset_0_1px_0_rgba(255,255,255,0.3)] border border-violet-400/30"
               >
                 Sign In
-                <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </button>

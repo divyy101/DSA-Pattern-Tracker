@@ -10,8 +10,9 @@ function Navbar({ onLogout }) {
   ];
 
   return (
-    <nav className="bg-[#0a0e1e]/90 backdrop-blur-2xl border-b border-white/[0.06] py-3 px-6 sticky top-0 z-50 shadow-[0_1px_3px_rgba(0,0,0,0.4),0_8px_24px_rgba(0,0,0,0.15)]">
-      <div className="max-w-[960px] mx-auto flex items-center justify-between">
+    <nav className="bg-[#0a0e1e]/70 backdrop-blur-3xl border-b border-white/[0.08] py-3 px-6 sticky top-0 z-50 shadow-[0_4px_30px_rgba(0,0,0,0.5),0_1px_0_rgba(255,255,255,0.05)_inset] transition-all duration-300">
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-violet-500/30 to-transparent"></div>
+      <div className="max-w-[960px] mx-auto flex items-center justify-between relative z-10">
 
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-3 group no-underline">

@@ -130,7 +130,7 @@ function App() {
                   <div className="animate-page-ease-in" key="dashboard">
                     
                     {/* Welcome Banner */}
-                    <div className="relative overflow-hidden bg-[#0c1024]/70 backdrop-blur-2xl border border-white/[0.06] rounded-3xl p-7 md:p-9 mb-7 group shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                    <div className="relative overflow-hidden bg-[#0c1024]/60 backdrop-blur-3xl border border-white/[0.1] rounded-3xl p-7 md:p-10 mb-8 group shadow-[0_12px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] transition-all duration-500 hover:shadow-[0_20px_60px_rgba(139,92,246,0.15)] hover:border-white/[0.15]">
                       <div className="absolute -top-16 -right-16 w-56 h-56 bg-violet-500/10 rounded-full blur-3xl pointer-events-none transition-transform duration-700 group-hover:translate-x-4 group-hover:scale-110" />
                       <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-fuchsia-500/6 rounded-full blur-3xl pointer-events-none" />
                       <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -139,7 +139,7 @@ function App() {
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                             Progress Active
                           </div>
-                          <h2 className="text-xl md:text-[1.65rem] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-violet-200 mb-1.5 tracking-tight">
+                          <h2 className="text-[1.3rem] md:text-[2rem] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-violet-300 mb-2 tracking-tight drop-shadow-md">
                             Welcome back, {user?.name || "Coder"}!
                           </h2>
                           <p className="text-[0.85rem] text-slate-400 max-w-xl font-medium">
@@ -148,7 +148,7 @@ function App() {
                         </div>
                         <div className="hidden md:flex flex-col items-end shrink-0">
                           <span className="text-[0.7rem] text-slate-500 font-semibold uppercase tracking-wider mb-1">Completion</span>
-                          <span className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-emerald-400 leading-none">{percentage}%</span>
+                          <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-emerald-400 leading-none drop-shadow-[0_2px_8px_rgba(139,92,246,0.3)]">{percentage}%</span>
                         </div>
                       </div>
                     </div>
