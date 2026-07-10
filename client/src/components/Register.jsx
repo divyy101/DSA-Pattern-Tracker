@@ -41,7 +41,12 @@ function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#060911] via-[#0c1024] to-[#0a0d1a] flex items-center justify-center px-4 animate-page-ease-in relative overflow-hidden">
+    <div
+      style={{ backgroundImage: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIcd1DiOEmM255YDptB3_efdpuzyi47gn5Tx7kVdS0MQ&s=10')" }}
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 animate-page-ease-in relative overflow-hidden"
+    >
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#060911]/85 via-[#0c1024]/80 to-[#0a0d1a]/90 pointer-events-none" />
       {/* Decorative background orbs */}
       <div className="absolute top-1/3 -right-28 w-64 h-64 bg-violet-600/8 rounded-full blur-3xl pointer-events-none animate-float" />
       <div className="absolute bottom-1/3 -left-28 w-56 h-56 bg-indigo-600/6 rounded-full blur-3xl pointer-events-none animate-float" style={{ animationDelay: "2s" }} />

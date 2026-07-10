@@ -33,7 +33,12 @@ function Login({ onLogin }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#060911] via-[#0c1024] to-[#0a0d1a] flex items-center justify-center px-4 animate-page-ease-in relative overflow-hidden">
+    <div
+      style={{ backgroundImage: "url('https://t4.ftcdn.net/jpg/01/19/11/55/360_F_119115529_mEnw3lGpLdlDkfLgRcVSbFRuVl6sMDty.jpg')" }}
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 animate-page-ease-in relative overflow-hidden"
+    >
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#060911]/85 via-[#0c1024]/80 to-[#0a0d1a]/90 pointer-events-none" />
       {/* Decorative background orbs */}
       <div className="absolute top-1/4 -left-32 w-72 h-72 bg-violet-600/8 rounded-full blur-3xl pointer-events-none animate-float" />
       <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-fuchsia-600/6 rounded-full blur-3xl pointer-events-none animate-float" style={{ animationDelay: "3s" }} />
