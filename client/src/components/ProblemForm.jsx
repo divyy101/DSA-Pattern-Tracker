@@ -134,7 +134,7 @@ function ProblemForm({ onAdd }) {
                 value={formData.problemName}
                 onChange={handleChange}
                 placeholder="e.g. Two Sum, Valid Anagram, etc."
-                className="w-full py-3 px-4 rounded-xl border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] placeholder-slate-600 outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)]"
+                className="w-full py-3 px-4 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] placeholder-slate-600 outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)]"
               />
             </div>
             
@@ -145,7 +145,7 @@ function ProblemForm({ onAdd }) {
                   name="pattern"
                   value={formData.pattern}
                   onChange={handleChange}
-                  className="w-full py-3 pl-4 pr-9 rounded-xl border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] cursor-pointer appearance-none"
+                  className="w-full py-3 pl-4 pr-9 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] cursor-pointer appearance-none"
                 >
                   {PATTERNS.map((p) => (
                     <option key={p} className="bg-[#0c1024] text-slate-200">{p}</option>
@@ -166,7 +166,7 @@ function ProblemForm({ onAdd }) {
                   name="difficulty"
                   value={formData.difficulty}
                   onChange={handleChange}
-                  className="w-full py-3 pl-4 pr-9 rounded-xl border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] cursor-pointer appearance-none"
+                  className="w-full py-3 pl-4 pr-9 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] cursor-pointer appearance-none"
                 >
                   <option className="bg-[#0c1024] text-slate-200">Easy</option>
                   <option className="bg-[#0c1024] text-slate-200">Medium</option>
@@ -187,7 +187,7 @@ function ProblemForm({ onAdd }) {
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
-                  className="w-full py-3 pl-4 pr-9 rounded-xl border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] cursor-pointer appearance-none"
+                  className="w-full py-3 pl-4 pr-9 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] cursor-pointer appearance-none"
                 >
                   <option className="bg-[#0c1024] text-slate-200">Unsolved</option>
                   <option className="bg-[#0c1024] text-slate-200">Solved</option>
@@ -208,7 +208,7 @@ function ProblemForm({ onAdd }) {
                 onChange={handleChange}
                 placeholder="e.g. Use sliding window. Time Complexity O(n), Space Complexity O(1)."
                 rows={3}
-                className="w-full py-3 px-4 rounded-xl border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] placeholder-slate-600 outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] resize-none"
+                className="w-full py-3 px-4 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] placeholder-slate-600 outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] resize-none"
               />
             </div>
             

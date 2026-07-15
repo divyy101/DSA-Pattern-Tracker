@@ -115,7 +115,7 @@ function ProblemList({ problems, onDelete, onUpdate, readOnly = false }) {
             <div className="flex flex-col gap-1.5">
               <label className="text-[0.65rem] font-bold text-slate-500 uppercase tracking-wider">Problem Name</label>
               <input
-                className="w-full py-2.5 px-3 rounded-lg border border-white/[0.08] text-xs font-semibold text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 focus:border-violet-500/50 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] placeholder-slate-600"
+                className="w-full py-2.5 px-3 rounded-none border border-white/[0.08] text-xs font-semibold text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 focus:border-violet-500/50 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] placeholder-slate-600"
                 value={editData.problemName}
                 onChange={(e) => updateEditField("problemName", e.target.value)}
                 placeholder="Problem name"
@@ -126,7 +126,7 @@ function ProblemList({ problems, onDelete, onUpdate, readOnly = false }) {
               <div className="flex flex-col gap-1">
                 <label className="text-[0.65rem] font-bold text-slate-500 uppercase tracking-wider">Pattern</label>
                 <select
-                  className="w-full py-2.5 px-3 rounded-lg border border-white/[0.08] text-xs font-semibold text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 focus:border-violet-500/50 cursor-pointer"
+                  className="w-full py-2.5 px-3 rounded-none border border-white/[0.08] text-xs font-semibold text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 focus:border-violet-500/50 cursor-pointer"
                   value={editData.pattern}
                   onChange={(e) => updateEditField("pattern", e.target.value)}
                 >
@@ -138,7 +138,7 @@ function ProblemList({ problems, onDelete, onUpdate, readOnly = false }) {
               <div className="flex flex-col gap-1">
                 <label className="text-[0.65rem] font-bold text-slate-500 uppercase tracking-wider">Difficulty</label>
                 <select
-                  className="w-full py-2.5 px-3 rounded-lg border border-white/[0.08] text-xs font-semibold text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 focus:border-violet-500/50 cursor-pointer"
+                  className="w-full py-2.5 px-3 rounded-none border border-white/[0.08] text-xs font-semibold text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 focus:border-violet-500/50 cursor-pointer"
                   value={editData.difficulty}
                   onChange={(e) => updateEditField("difficulty", e.target.value)}
                 >
@@ -152,7 +152,7 @@ function ProblemList({ problems, onDelete, onUpdate, readOnly = false }) {
             <div className="flex flex-col gap-1">
               <label className="text-[0.65rem] font-bold text-slate-500 uppercase tracking-wider">Status</label>
               <select
-                className="w-full py-2.5 px-3 rounded-lg border border-white/[0.08] text-xs font-semibold text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 focus:border-violet-500/50 cursor-pointer"
+                className="w-full py-2.5 px-3 rounded-none border border-white/[0.08] text-xs font-semibold text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 focus:border-violet-500/50 cursor-pointer"
                 value={editData.status}
                 onChange={(e) => updateEditField("status", e.target.value)}
               >
@@ -164,7 +164,7 @@ function ProblemList({ problems, onDelete, onUpdate, readOnly = false }) {
             <div className="flex flex-col gap-1">
               <label className="text-[0.65rem] font-bold text-slate-500 uppercase tracking-wider">Notes</label>
               <textarea
-                className="w-full py-2.5 px-3 rounded-lg border border-white/[0.08] text-xs font-semibold text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 focus:border-violet-500/50 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] placeholder-slate-600 resize-none"
+                className="w-full py-2.5 px-3 rounded-none border border-white/[0.08] text-xs font-semibold text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 focus:border-violet-500/50 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] placeholder-slate-600 resize-none"
                 rows={3}
                 value={editData.notes}
                 onChange={(e) => updateEditField("notes", e.target.value)}

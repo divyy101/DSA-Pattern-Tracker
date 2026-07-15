@@ -105,7 +105,7 @@ function Register() {
                   onChange={handleChange}
                   placeholder="John Doe"
                   disabled={loading || success}
-                  className="w-full pl-11 pr-4 py-3 rounded-xl border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] placeholder-slate-600 disabled:opacity-50"
+                  className="w-full pl-11 pr-4 py-3 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] placeholder-slate-600 disabled:opacity-50"
                 />
               </div>
             </div>
@@ -125,7 +125,7 @@ function Register() {
                   onChange={handleChange}
                   placeholder="you@example.com"
                   disabled={loading || success}
-                  className="w-full pl-11 pr-4 py-3 rounded-xl border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] placeholder-slate-600 disabled:opacity-50"
+                  className="w-full pl-11 pr-4 py-3 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] placeholder-slate-600 disabled:opacity-50"
                 />
               </div>
             </div>
@@ -145,7 +145,7 @@ function Register() {
                   onChange={handleChange}
                   placeholder="••••••••"
                   disabled={loading || success}
-                  className="w-full pl-11 pr-4 py-3 rounded-xl border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] placeholder-slate-600 disabled:opacity-50"
+                  className="w-full pl-11 pr-4 py-3 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] placeholder-slate-600 disabled:opacity-50"
                 />
               </div>
             </div>

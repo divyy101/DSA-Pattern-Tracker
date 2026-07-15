@@ -233,14 +233,14 @@ function App() {
                           placeholder="Search by problem name..."
                           value={search}
                           onChange={(e) => setSearch(e.target.value)}
-                          className="w-full pl-10 pr-4 py-3 rounded-xl border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] placeholder-slate-600 outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)]"
+                          className="w-full pl-10 pr-4 py-3 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] placeholder-slate-600 outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)]"
                         />
                       </div>
                       <div className="relative group min-w-[200px]">
                         <select
                           value={pattern}
                           onChange={(e) => setPattern(e.target.value)}
-                          className="w-full pl-4 pr-10 py-3 rounded-xl border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] cursor-pointer appearance-none"
+                          className="w-full pl-4 pr-10 py-3 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] cursor-pointer appearance-none"
                         >
                           {PATTERNS.map((p) => (
                             <option key={p} className="bg-[#0c1024] text-slate-200">{p === "All" ? "Filter by Pattern (All)" : p}</option>
@@ -301,14 +301,14 @@ function App() {
                           placeholder="Search by problem name..."
                           value={search}
                           onChange={(e) => setSearch(e.target.value)}
-                          className="w-full pl-10 pr-4 py-3 rounded-xl border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] placeholder-slate-600 outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)]"
+                          className="w-full pl-10 pr-4 py-3 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] placeholder-slate-600 outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)]"
                         />
                       </div>
                       <div className="relative group min-w-[200px]">
                         <select
                           value={pattern}
                           onChange={(e) => setPattern(e.target.value)}
-                          className="w-full pl-4 pr-10 py-3 rounded-xl border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] cursor-pointer appearance-none"
+                          className="w-full pl-4 pr-10 py-3 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] cursor-pointer appearance-none"
                         >
                           {PATTERNS.map((p) => (
                             <option key={p} className="bg-[#0c1024] text-slate-200">{p === "All" ? "Filter by Pattern (All)" : p}</option>
