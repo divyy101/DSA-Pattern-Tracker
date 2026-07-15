@@ -79,31 +79,6 @@ function App() {
     navigate("/");
   }
 
-  const [leetcodeUsername, setLeetcodeUsername] = useState(() => localStorage.getItem("leetcodeUsername") || "");
-  const [isSyncing, setIsSyncing] = useState(false);
-  const [syncStatus, setSyncStatus] = useState({ message: "", type: "" });
-
-  async function handleSyncLeetCode() {
-    if (!leetcodeUsername.trim()) {
-      setSyncStatus({ message: "Please enter a LeetCode username.", type: "error" });
-      setTimeout(() => setSyncStatus({ message: "", type: "" }), 3000);
-      return;
-    }
-    setIsSyncing(true);
-    setSyncStatus({ message: "", type: "" });
-    try {
-      localStorage.setItem("leetcodeUsername", leetcodeUsername);
-      const response = await api.post("/problems/sync-leetcode", { username: leetcodeUsername });
-      setSyncStatus({ message: response.data.message || "Synced successfully!", type: "success" });
-      fetchProblems();
-    } catch (error) {
-      setSyncStatus({ message: error.response?.data?.message || "Error syncing with LeetCode.", type: "error" });
-    } finally {
-      setIsSyncing(false);
-      setTimeout(() => setSyncStatus({ message: "", type: "" }), 5000);
-    }
-  }
-
   return (
     <div className="min-h-screen bg-[#060813] text-slate-100 flex flex-col">
       {isLoggedIn && (
@@ -170,43 +145,6 @@ function App() {
                           <p className="text-[0.85rem] text-slate-400 max-w-xl font-medium">
                             Keep grinding — every problem you solve gets you closer to cracking the next interview.
                           </p>
-                          <div className="mt-5 flex flex-col sm:flex-row items-center gap-3">
-                            <div className="relative w-full sm:w-auto">
-                              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500">
-                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.939 5.939 0 0 0 1.271 1.541l11.967 11.67a1.28 1.28 0 0 0 .921.383 1.277 1.277 0 0 0 .93-.387 1.319 1.319 0 0 0 .042-1.898L5.384 15.351a3.153 3.153 0 0 1-.77-1.118 3.109 3.109 0 0 1-.365-1.492c0-.528.118-1.026.353-1.494a3.148 3.148 0 0 1 .784-1.12l2.42-2.593c2.721-2.913 6.002-6.425 6.002-6.425a1.315 1.315 0 0 0 .025-1.897 1.3 1.3 0 0 0-.93-.414h-.006c-.05 0-.1.006-.145.02a1.32 1.32 0 0 0-.271.107v-.002zM12.9 6.26l-5.69 6.1a1.088 1.088 0 0 0-.294.664c0 .323.111.603.332.84l5.378 5.766a1.313 1.313 0 0 0 1.92.002 1.312 1.312 0 0 0 0-1.898l-4.407-4.72a1.096 1.096 0 0 1-.295-.662c0-.323.112-.603.333-.84l4.63-4.96c.552-.59.52-1.543-.07-2.096a1.283 1.283 0 0 0-1.836-.002V6.26z"/></svg>
-                              </span>
-                              <input
-                                placeholder="LeetCode Username"
-                                value={leetcodeUsername}
-                                onChange={(e) => setLeetcodeUsername(e.target.value)}
-                                className="w-full sm:w-56 pl-10 pr-4 py-2.5 rounded-xl border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] placeholder-slate-600 outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-amber-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(245,158,11,0.12)]"
-                              />
-                            </div>
-                            <button
-                              onClick={handleSyncLeetCode}
-                              disabled={isSyncing}
-                              className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[0.85rem] font-bold shadow-[0_0_15px_rgba(245,158,11,0.4)] hover:shadow-[0_0_25px_rgba(245,158,11,0.6)] hover:-translate-y-0.5 hover:scale-105 active:scale-95 transition-all duration-300 disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                            >
-                              {isSyncing ? (
-                                <>
-                                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                  Syncing...
-                                </>
-                              ) : (
-                                "Sync Progress"
-                              )}
-                            </button>
-                            {syncStatus.message && (
-                              <span className={`text-[0.75rem] font-semibold flex items-center gap-1.5 animate-fade-in ${syncStatus.type === "error" ? "text-rose-400" : "text-emerald-400"}`}>
-                                {syncStatus.type === "error" ? (
-                                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                ) : (
-                                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
-                                )}
-                                {syncStatus.message}
-                              </span>
-                            )}
-                          </div>
                         </div>
                         <div className="hidden md:flex flex-col items-end shrink-0">
                           <span className="text-[0.7rem] text-slate-500 font-semibold uppercase tracking-wider mb-1">Completion</span>
