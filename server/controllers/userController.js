@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const nodemailer = require("nodemailer");
+const { fetchLeetCodeUserData } = require("../utils/leetcodeService");
 
 const registerUser = async (req, res) => {
   try {
@@ -51,7 +52,14 @@ const registerUser = async (req, res) => {
 
     res.status(201).json({
       message: "User registered successfully",
-      user: { name: newUser.name, email: newUser.email },
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        leetcodeUsername: newUser.leetcodeUsername || "",
+        targetCompany: newUser.targetCompany || "FAANG / Top Tech",
+        dailyGoal: newUser.dailyGoal || 2,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -73,11 +81,66 @@ const loginUser = async (req, res) => {
 
     res.status(200).json({
       message: "Login successful",
-      user: { name: user.name, email: user.email },
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        leetcodeUsername: user.leetcodeUsername || "",
+        targetCompany: user.targetCompany || "FAANG / Top Tech",
+        dailyGoal: user.dailyGoal || 2,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = { registerUser, loginUser };
+const updateProfile = async (req, res) => {
+  try {
+    const { email, name, leetcodeUsername, targetCompany, dailyGoal } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: "User email is required" });
+    }
+
+    const updatedUser = await User.findOneAndUpdate(
+      { email },
+      { name, leetcodeUsername, targetCompany, dailyGoal },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      user: {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        leetcodeUsername: updatedUser.leetcodeUsername || "",
+        targetCompany: updatedUser.targetCompany || "FAANG / Top Tech",
+        dailyGoal: updatedUser.dailyGoal || 2,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getLeetCodeStats = async (req, res) => {
+  try {
+    const { username } = req.params;
+    if (!username) {
+      return res.status(400).json({ message: "LeetCode username is required" });
+    }
+
+    const stats = await fetchLeetCodeUserData(username);
+    res.status(200).json(stats);
+  } catch (error) {
+    res.status(500).json({ message: error.message || "Failed to fetch LeetCode data" });
+  }
+};
+
+module.exports = { registerUser, loginUser, updateProfile, getLeetCodeStats };
+

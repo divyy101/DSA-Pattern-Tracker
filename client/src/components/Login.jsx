@@ -1,21 +1,23 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import api from "../api";
+import { useAppStore } from "../store/useAppStore";
+import { Eye, EyeOff, Lock, Mail, ArrowRight, Code2, CheckCircle2, Sparkles } from "lucide-react";
 
 function Login({ onLogin }) {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const { updateUser } = useAppStore();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
-  function handleChange(e) {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  }
+  async function handleSubmit(event) {
+    event.preventDefault();
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    if (!formData.email.trim() || !formData.password.trim()) {
-      setError("Please enter both email and password.");
+    if (!email || !password) {
+      setError("Please fill in all fields.");
       return;
     }
 
@@ -23,132 +25,184 @@ function Login({ onLogin }) {
       setLoading(true);
       setError("");
 
-      const response = await api.post("/users/login", formData);
-      onLogin(response.data.user);
+      const response = await api.post("/users/login", { email, password });
+      const userData = response.data.user;
+
+      if (userData) {
+        updateUser(userData);
+      }
+
+      onLogin(userData);
     } catch (err) {
-      setError(err.response?.data?.message || "Invalid email or password.");
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Unable to log in. Please ensure backend is running.");
+      }
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div
-      style={{ backgroundImage: "url('https://t4.ftcdn.net/jpg/01/19/11/55/360_F_119115529_mEnw3lGpLdlDkfLgRcVSbFRuVl6sMDty.jpg')" }}
-      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 animate-page-ease-in relative overflow-hidden"
-    >
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#060911]/85 via-[#0c1024]/80 to-[#0a0d1a]/90 pointer-events-none" />
-      {/* Decorative background orbs */}
-      <div className="absolute top-1/4 -left-32 w-72 h-72 bg-violet-600/8 rounded-full blur-3xl pointer-events-none animate-float" />
-      <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-fuchsia-600/6 rounded-full blur-3xl pointer-events-none animate-float" style={{ animationDelay: "3s" }} />
+    <div className="min-h-screen bg-[#0B1120] text-slate-100 flex items-center justify-center p-4 lg:p-8 relative overflow-hidden bg-grid-pattern">
+      {/* Background Subtle Gradient Blobs */}
+      <div className="absolute top-1/4 left-1/6 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/6 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 max-w-[420px] w-full">
-        {/* Card */}
-        <div className="bg-[#0c1024]/85 backdrop-blur-2xl border border-white/[0.07] rounded-3xl p-8 md:p-10 shadow-[0_24px_64px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.03)_inset] relative overflow-hidden">
-          {/* Top glow accent */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent" />
-
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500/15 to-fuchsia-500/10 border border-violet-500/15 mb-4 shadow-[0_0_20px_rgba(139,92,246,0.1)]">
-              <svg className="w-7 h-7 text-violet-400" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-              </svg>
+      <div className="w-full max-w-5xl bg-slate-900/90 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 relative z-10 backdrop-blur-xl">
+        
+        {/* Left Side: Developer Workspace Graphic & Motivation */}
+        <div className="hidden lg:flex flex-col justify-between p-10 bg-gradient-to-br from-slate-950 via-slate-900 to-[#0B1120] border-r border-slate-800/80 relative overflow-hidden">
+          <div className="absolute inset-0 bg-dot-pattern opacity-40 pointer-events-none" />
+          
+          <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 mb-6">
+              <Code2 className="w-3.5 h-3.5" />
+              DSA Placement Readiness Platform
             </div>
-            <h2 className="text-[1.5rem] font-extrabold text-slate-100 tracking-tight">Welcome Back</h2>
-            <p className="text-[0.82rem] text-slate-500 mt-1.5 font-medium">Sign in to continue your DSA journey</p>
+
+            <h1 className="text-3xl font-extrabold text-white tracking-tight leading-tight mb-3">
+              Master Patterns. <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-amber-300">
+                Ace Tech Interviews.
+              </span>
+            </h1>
+
+            <p className="text-xs text-slate-400 font-medium max-w-md leading-relaxed">
+              Track your LeetCode problem velocity, master pattern-by-pattern problem solving, and build consistency for SDE placement season.
+            </p>
           </div>
 
-          {/* Error */}
+          {/* Code Card Mockup */}
+          <div className="my-8 p-5 bg-slate-950/80 border border-slate-800 rounded-2xl relative shadow-xl font-mono text-[0.72rem]">
+            <div className="flex items-center gap-1.5 mb-3 border-b border-slate-800/60 pb-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+              <span className="text-[0.65rem] text-slate-500 font-sans ml-2">SlidingWindow.cpp</span>
+            </div>
+            <p className="text-slate-400"><span className="text-cyan-400">int</span> maxSubarrayLen(<span className="text-cyan-400">vector</span>&lt;<span className="text-cyan-400">int</span>&gt;& nums, <span className="text-cyan-400">int</span> k) &#123;</p>
+            <p className="text-slate-400 pl-4"><span className="text-cyan-400">int</span> left = 0, maxLen = 0, currentSum = 0;</p>
+            <p className="text-slate-400 pl-4"><span className="text-amber-300">for</span> (<span className="text-cyan-400">int</span> right = 0; right &lt; nums.size(); ++right) &#123;</p>
+            <p className="text-emerald-400 pl-8">// Pattern match found ⚡</p>
+            <p className="text-slate-400 pl-4">&#125;</p>
+            <p className="text-slate-400">&#125;</p>
+          </div>
+
+          {/* Student Stats Highlights */}
+          <div className="relative z-10 grid grid-cols-3 gap-3 pt-4 border-t border-slate-800/80">
+            <div>
+              <span className="block text-lg font-black text-white">15+</span>
+              <span className="block text-[0.65rem] text-slate-400 font-medium">Core Patterns</span>
+            </div>
+            <div>
+              <span className="block text-lg font-black text-cyan-400">100%</span>
+              <span className="block text-[0.65rem] text-slate-400 font-medium">Live Sync</span>
+            </div>
+            <div>
+              <span className="block text-lg font-black text-amber-400">Target</span>
+              <span className="block text-[0.65rem] text-slate-400 font-medium">Placement Ready</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side: Clean Form */}
+        <div className="p-8 sm:p-12 flex flex-col justify-center">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-white tracking-tight">Welcome Back</h2>
+            <p className="text-xs text-slate-400 mt-1">
+              Log in to your DSA tracker workspace to continue solving.
+            </p>
+          </div>
+
           {error && (
-            <div className="flex items-start gap-2.5 text-[0.78rem] text-rose-300 bg-rose-500/[0.08] border border-rose-500/20 rounded-xl p-3.5 mb-5 animate-shake-in">
-              <svg className="w-4 h-4 mt-0.5 shrink-0 text-rose-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd"/>
-              </svg>
-              <span className="font-medium">{error}</span>
+            <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/20 text-rose-300 rounded-xl text-xs flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-ping shrink-0" />
+              <span>{error}</span>
             </div>
           )}
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[0.75rem] font-semibold text-slate-400 uppercase tracking-wider">Email Address</label>
-              <div className="relative group">
-                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-violet-400 transition-colors duration-200">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </span>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+                Email Address
+              </label>
+              <div className="relative">
+                <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="you@example.com"
-                  disabled={loading}
-                  className="w-full pl-11 pr-4 py-3 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] placeholder-slate-600 disabled:opacity-50"
+                  required
+                  placeholder="student@college.edu"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950/60 border border-slate-800 rounded-xl text-xs font-medium text-white placeholder-slate-600 outline-none focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/30 transition-all"
                 />
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[0.75rem] font-semibold text-slate-400 uppercase tracking-wider">Password</label>
-              <div className="relative group">
-                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-violet-400 transition-colors duration-200">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                </span>
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
+                  type={showPassword ? "text" : "password"}
+                  required
                   placeholder="••••••••"
-                  disabled={loading}
-                  className="w-full pl-11 pr-4 py-3 rounded-none border border-white/[0.08] text-[0.85rem] font-medium text-slate-200 bg-white/[0.03] outline-none transition-all duration-300 hover:border-white/[0.12] focus:border-violet-500/50 focus:bg-white/[0.05] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.12)] placeholder-slate-600 disabled:opacity-50"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full pl-10 pr-10 py-2.5 bg-slate-950/60 border border-slate-800 rounded-xl text-xs font-medium text-white placeholder-slate-600 outline-none focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/30 transition-all"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 cursor-pointer"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
+            </div>
+
+            <div className="flex items-center justify-between text-xs pt-1">
+              <label className="flex items-center gap-2 cursor-pointer select-none text-slate-400 hover:text-slate-200">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="rounded bg-slate-950 border-slate-800 text-cyan-500 focus:ring-cyan-500/30 w-3.5 h-3.5"
+                />
+                <span>Remember me</span>
+              </label>
+              <span className="text-cyan-400 hover:underline cursor-pointer">Forgot password?</span>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="group w-full inline-flex items-center justify-center gap-2 font-bold text-[0.85rem] py-3.5 rounded-xl cursor-pointer transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] bg-gradient-to-r from-violet-600 via-violet-500 to-indigo-600 text-white shadow-[0_4px_14px_rgba(139,92,246,0.3),inset_0_1px_0_rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(139,92,246,0.45),inset_0_1px_0_rgba(255,255,255,0.15)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 border border-violet-400/20 mt-1"
+              className="w-full py-3 px-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-cyan-500/20 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
-                  <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg>
-                  Signing in...
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Logging in...
                 </span>
               ) : (
                 <>
-                  Sign In
-                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                  <span>Sign In to Dashboard</span>
+                  <ArrowRight className="w-4 h-4" />
                 </>
               )}
             </button>
           </form>
 
-          {/* Footer Links */}
-          <div className="flex items-center justify-between mt-7 pt-5 border-t border-white/[0.05]">
-            <button
-              onClick={() => navigate("/")}
-              disabled={loading}
-              className="text-[0.78rem] font-medium text-slate-500 hover:text-slate-300 transition-all duration-200 cursor-pointer flex items-center gap-1 group/back"
-            >
-              <svg className="w-3.5 h-3.5 transition-transform duration-200 group-hover/back:-translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12" /></svg>
-              Home
-            </button>
-            <button
-              onClick={() => navigate("/register")}
-              disabled={loading}
-              className="text-[0.78rem] font-semibold text-violet-400/80 hover:text-violet-300 transition-all duration-200 cursor-pointer"
-            >
-              Create an account →
-            </button>
-          </div>
+          <p className="text-xs text-center text-slate-400 mt-6">
+            Don't have an account?{" "}
+            <Link to="/register" className="text-cyan-400 font-bold hover:underline">
+              Create account
+            </Link>
+          </p>
         </div>
       </div>
     </div>
