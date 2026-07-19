@@ -1,35 +1,77 @@
-import { useState, useEffect, Suspense, lazy } from "react";
+import { useState, useEffect, Component } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import CommandPalette from "./components/CommandPalette";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Dashboard from "./components/Dashboard";
+import ProblemsPage from "./components/ProblemsPage";
+import LeetCodeSync from "./components/LeetCodeSync";
+import AnalyticsPage from "./components/AnalyticsPage";
+import UserProfile from "./components/UserProfile";
+import About from "./components/About";
 import { useAppStore } from "./store/useAppStore";
 import api from "./api";
 import { Toaster, toast } from "sonner";
+import { AlertTriangle, RefreshCw } from "lucide-react";
 
-// Lazy load pages for performance and code splitting
-const Home = lazy(() => import("./components/Home"));
-const Login = lazy(() => import("./components/Login"));
-const Register = lazy(() => import("./components/Register"));
-const Dashboard = lazy(() => import("./components/Dashboard"));
-const ProblemsPage = lazy(() => import("./components/ProblemsPage"));
-const LeetCodeSync = lazy(() => import("./components/LeetCodeSync"));
-const AnalyticsPage = lazy(() => import("./components/AnalyticsPage"));
-const UserProfile = lazy(() => import("./components/UserProfile"));
-const About = lazy(() => import("./components/About"));
+// Error Boundary Component to prevent blank screen crashes
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("ErrorBoundary caught an error:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-[#0B1120] text-slate-100 flex flex-col items-center justify-center p-6 text-center space-y-4">
+          <AlertTriangle className="w-12 h-12 text-amber-400" />
+          <h2 className="text-xl font-bold">Something went wrong</h2>
+          <p className="text-xs text-slate-400 max-w-md">
+            {this.state.error?.message || "An unexpected error occurred in the workspace."}
+          </p>
+          <button
+            onClick={() => {
+              this.setState({ hasError: false, error: null });
+              window.location.reload();
+            }}
+            className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-none flex items-center gap-2 cursor-pointer"
+          >
+            <RefreshCw className="w-4 h-4" />
+            <span>Reload Application</span>
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 function App() {
   const navigate = useNavigate();
   const { isLoggedIn, setLoggedIn } = useAppStore();
   const [problems, setProblems] = useState([]);
-  const [loadingProblems, setLoadingProblems] = useState(true);
+  const [loadingProblems, setLoadingProblems] = useState(false);
 
   async function fetchProblems() {
     try {
       setLoadingProblems(true);
       const response = await api.get("/problems");
-      setProblems(response.data);
+      if (Array.isArray(response.data)) {
+        setProblems(response.data);
+      }
     } catch {
-      toast.error("Could not fetch problems from server");
+      // Graceful fallback - backend might be offline or connecting
     } finally {
       setLoadingProblems(false);
     }
@@ -52,31 +94,22 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0B1120] text-slate-100 flex flex-col font-sans selection:bg-cyan-500/20 selection:text-white">
-      {/* Toast Notifications */}
-      <Toaster position="top-right" theme="dark" richColors />
+    <ErrorBoundary>
+      <div className="min-h-screen bg-[#0B1120] text-slate-100 flex flex-col font-sans selection:bg-cyan-500/20 selection:text-white">
+        {/* Toast Notifications */}
+        <Toaster position="top-right" theme="dark" richColors />
 
-      {/* Global Command Palette (Ctrl+K) */}
-      <CommandPalette problems={problems} />
+        {/* Global Command Palette (Ctrl+K) */}
+        <CommandPalette problems={problems} />
 
-      {/* Navbar (visible when logged in) */}
-      {isLoggedIn && <Navbar onLogout={handleLogout} />}
+        {/* Navbar */}
+        {isLoggedIn && <Navbar onLogout={handleLogout} />}
 
-      {/* Main Content with Suspense Loading */}
-      <div className="flex-1">
-        <Suspense
-          fallback={
-            <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-4">
-              <div className="w-10 h-10 border-4 border-cyan-500/20 border-t-cyan-400 rounded-full animate-spin" />
-              <p className="text-xs font-semibold text-slate-400">Loading DSA Workspace...</p>
-            </div>
-          }
-        >
+        {/* Main Content Routes */}
+        <div className="flex-1">
           <Routes>
-            {/* Home Route */}
             <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
 
-            {/* Auth Routes */}
             <Route
               path="/login"
               element={isLoggedIn ? <Navigate to="/dashboard" replace /> : <Login onLogin={handleLogin} />}
@@ -86,7 +119,6 @@ function App() {
               element={isLoggedIn ? <Navigate to="/dashboard" replace /> : <Register />}
             />
 
-            {/* Dashboard Route */}
             <Route
               path="/dashboard"
               element={
@@ -98,7 +130,6 @@ function App() {
               }
             />
 
-            {/* Problems Route */}
             <Route
               path="/problems"
               element={
@@ -110,13 +141,11 @@ function App() {
               }
             />
 
-            {/* LeetCode Sync Route */}
             <Route
               path="/leetcode"
               element={isLoggedIn ? <LeetCodeSync /> : <Navigate to="/login" replace />}
             />
 
-            {/* Analytics Route */}
             <Route
               path="/analytics"
               element={
@@ -128,7 +157,6 @@ function App() {
               }
             />
 
-            {/* User Profile Route */}
             <Route
               path="/profile"
               element={
@@ -140,15 +168,13 @@ function App() {
               }
             />
 
-            {/* About Route */}
             <Route path="/about" element={<About />} />
 
-            {/* Fallback Catch-all Route */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </Suspense>
+        </div>
       </div>
-    </div>
+    </ErrorBoundary>
   );
 }
 
