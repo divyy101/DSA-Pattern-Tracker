@@ -5,10 +5,9 @@ import CommandPalette from "./components/CommandPalette";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Dashboard from "./components/Dashboard";
-import ProblemsPage from "./components/ProblemsPage";
 import LeetCodeSync from "./components/LeetCodeSync";
 import AnalyticsPage from "./components/AnalyticsPage";
+import ProblemsPage from "./components/ProblemsPage";
 import UserProfile from "./components/UserProfile";
 import About from "./components/About";
 import { useAppStore } from "./store/useAppStore";
@@ -34,10 +33,10 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#0B1120] text-slate-100 flex flex-col items-center justify-center p-6 text-center space-y-4">
+        <div className="min-h-screen bg-[#0B1120] text-slate-100 flex flex-col items-center justify-center p-6 text-center space-y-4 font-mono">
           <AlertTriangle className="w-12 h-12 text-amber-400" />
-          <h2 className="text-xl font-bold">Something went wrong</h2>
-          <p className="text-xs text-slate-400 max-w-md">
+          <h2 className="text-2xl font-bold">SYSTEM RECOVERY</h2>
+          <p className="text-sm text-slate-400 max-w-md">
             {this.state.error?.message || "An unexpected error occurred in the workspace."}
           </p>
           <button
@@ -45,7 +44,7 @@ class ErrorBoundary extends Component {
               this.setState({ hasError: false, error: null });
               window.location.reload();
             }}
-            className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-none flex items-center gap-2 cursor-pointer"
+            className="px-5 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm rounded-none flex items-center gap-2 cursor-pointer"
           >
             <RefreshCw className="w-4 h-4" />
             <span>Reload Application</span>
@@ -61,19 +60,15 @@ function App() {
   const navigate = useNavigate();
   const { isLoggedIn, setLoggedIn } = useAppStore();
   const [problems, setProblems] = useState([]);
-  const [loadingProblems, setLoadingProblems] = useState(false);
 
   async function fetchProblems() {
     try {
-      setLoadingProblems(true);
       const response = await api.get("/problems");
       if (Array.isArray(response.data)) {
         setProblems(response.data);
       }
     } catch {
-      // Graceful fallback - backend might be offline or connecting
-    } finally {
-      setLoadingProblems(false);
+      // Graceful fallback
     }
   }
 
@@ -84,7 +79,7 @@ function App() {
   function handleLogin(userData) {
     setLoggedIn(true, userData);
     toast.success(`Welcome back, ${userData.name || "Coder"}!`);
-    navigate("/dashboard");
+    navigate("/leetcode");
   }
 
   function handleLogout() {
@@ -112,40 +107,20 @@ function App() {
 
             <Route
               path="/login"
-              element={isLoggedIn ? <Navigate to="/dashboard" replace /> : <Login onLogin={handleLogin} />}
+              element={isLoggedIn ? <Navigate to="/leetcode" replace /> : <Login onLogin={handleLogin} />}
             />
             <Route
               path="/register"
-              element={isLoggedIn ? <Navigate to="/dashboard" replace /> : <Register />}
+              element={isLoggedIn ? <Navigate to="/leetcode" replace /> : <Register />}
             />
 
-            <Route
-              path="/dashboard"
-              element={
-                isLoggedIn ? (
-                  <Dashboard problems={problems} onRefresh={fetchProblems} />
-                ) : (
-                  <Navigate to="/login" replace />
-                )
-              }
-            />
-
-            <Route
-              path="/problems"
-              element={
-                isLoggedIn ? (
-                  <ProblemsPage problems={problems} onRefresh={fetchProblems} />
-                ) : (
-                  <Navigate to="/login" replace />
-                )
-              }
-            />
-
+            {/* 1. LeetCode Sync */}
             <Route
               path="/leetcode"
               element={isLoggedIn ? <LeetCodeSync /> : <Navigate to="/login" replace />}
             />
 
+            {/* 2. Analytics */}
             <Route
               path="/analytics"
               element={
@@ -157,6 +132,19 @@ function App() {
               }
             />
 
+            {/* 3. Problems (Add & Track Problems) */}
+            <Route
+              path="/problems"
+              element={
+                isLoggedIn ? (
+                  <ProblemsPage problems={problems} onRefresh={fetchProblems} />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+
+            {/* 4. User Profile */}
             <Route
               path="/profile"
               element={
@@ -168,7 +156,11 @@ function App() {
               }
             />
 
+            {/* 5. About */}
             <Route path="/about" element={<About />} />
+
+            {/* Legacy Dashboard Redirect */}
+            <Route path="/dashboard" element={<Navigate to="/leetcode" replace />} />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

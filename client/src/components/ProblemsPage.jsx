@@ -6,21 +6,16 @@ import {
   Kanban as KanbanIcon,
   Grid as GridIcon,
   Search,
-  Filter,
   Plus,
   Trash2,
   CheckCircle,
   Download,
   Upload,
   BookOpen,
-  Calendar,
-  ExternalLink,
-  ChevronDown,
-  Edit2,
   X,
-  RefreshCw,
-  Clock,
-  Sparkles
+  Code2,
+  Layers,
+  ChevronDown
 } from "lucide-react";
 import ProblemForm from "./ProblemForm";
 
@@ -46,21 +41,14 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
   const [selectedPattern, setSelectedPattern] = useState("All");
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
   const [selectedStatus, setSelectedStatus] = useState("All");
-  const [sortBy, setSortBy] = useState("newest"); // 'newest' | 'oldest' | 'difficulty' | 'name'
+  const [sortBy, setSortBy] = useState("newest");
 
-  // Selection for Bulk Actions
   const [selectedIds, setSelectedIds] = useState([]);
-
-  // Notes Slide-Over Drawer
   const [activeNotesProblem, setActiveNotesProblem] = useState(null);
   const [notesText, setNotesText] = useState("");
   const [savingNotes, setSavingNotes] = useState(false);
 
-  // Edit Modal
-  const [editingProblem, setEditingProblem] = useState(null);
-  const [editForm, setEditForm] = useState({});
-
-  // Filters logic
+  // Filter & Sort Logic
   const filteredProblems = useMemo(() => {
     return problems
       .filter((p) => {
@@ -82,7 +70,6 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
       });
   }, [problems, search, selectedPattern, selectedDifficulty, selectedStatus, sortBy]);
 
-  // Bulk Actions
   const toggleSelectAll = () => {
     if (selectedIds.length === filteredProblems.length) {
       setSelectedIds([]);
@@ -123,7 +110,6 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
     }
   };
 
-  // Export CSV
   const handleExportCSV = () => {
     const headers = ["Problem Name", "Pattern", "Difficulty", "Status", "Platform", "Notes"];
     const rows = filteredProblems.map((p) => [
@@ -145,7 +131,6 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
     document.body.removeChild(link);
   };
 
-  // Import CSV
   const handleImportCSV = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -170,7 +155,7 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
             });
             count++;
           } catch {
-            // ignore item error
+            // ignore
           }
         }
       }
@@ -180,7 +165,6 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
     reader.readAsText(file);
   };
 
-  // Notes drawer save
   const handleSaveNotes = async () => {
     if (!activeNotesProblem) return;
     try {
@@ -195,7 +179,6 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
     }
   };
 
-  // Toggle Single Problem Status
   const handleStatusToggle = async (p) => {
     if (readOnly) return;
     const statuses = ["Unsolved", "Attempted", "Revision", "Solved"];
@@ -214,159 +197,150 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-6 animate-fade-slide-up">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6 animate-fade-slide-up">
       
       {/* Header Bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#0e1626] border border-slate-800 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            Problem Bank & Revision Manager
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2">
+            <Code2 className="w-6 h-6 text-cyan-400" />
+            <span>Problem Bank & Tracker</span>
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Manage your problem suite in Table, Kanban, or Grid view.
+          <p className="text-sm text-slate-400 mt-1 font-medium">
+            Add new problems below or manage existing entries in Table, Kanban, or Grid view.
           </p>
         </div>
 
-        {/* View Switcher & Action Buttons */}
+        {/* View Switcher & Actions */}
         <div className="flex flex-wrap items-center gap-2">
-          
-          {/* View Buttons */}
-          <div className="bg-slate-900 border border-slate-800 p-1 rounded-xl flex items-center gap-1">
+          <div className="bg-[#080d1a] border border-slate-800 p-1 flex items-center gap-1">
             <button
               onClick={() => setActiveView("table")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
-                activeView === "table" ? "bg-cyan-950/60 text-cyan-400 border border-cyan-500/30" : "text-slate-400 hover:text-slate-200"
+              className={`px-4 py-2 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer ${
+                activeView === "table" ? "bg-cyan-950 text-cyan-400 border border-cyan-500/40" : "text-slate-400 hover:text-white"
               }`}
             >
-              <TableIcon className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Table</span>
+              <TableIcon className="w-4 h-4" />
+              <span>Table</span>
             </button>
             <button
               onClick={() => setActiveView("kanban")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
-                activeView === "kanban" ? "bg-cyan-950/60 text-cyan-400 border border-cyan-500/30" : "text-slate-400 hover:text-slate-200"
+              className={`px-4 py-2 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer ${
+                activeView === "kanban" ? "bg-cyan-950 text-cyan-400 border border-cyan-500/40" : "text-slate-400 hover:text-white"
               }`}
             >
-              <KanbanIcon className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Kanban</span>
+              <KanbanIcon className="w-4 h-4" />
+              <span>Kanban</span>
             </button>
             <button
               onClick={() => setActiveView("grid")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
-                activeView === "grid" ? "bg-cyan-950/60 text-cyan-400 border border-cyan-500/30" : "text-slate-400 hover:text-slate-200"
+              className={`px-4 py-2 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer ${
+                activeView === "grid" ? "bg-cyan-950 text-cyan-400 border border-cyan-500/40" : "text-slate-400 hover:text-white"
               }`}
             >
-              <GridIcon className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Grid</span>
+              <GridIcon className="w-4 h-4" />
+              <span>Grid</span>
             </button>
           </div>
 
-          {/* Export / Import CSV */}
           <button
             onClick={handleExportCSV}
-            className="px-3 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
-            title="Export CSV"
+            className="px-4 py-2.5 bg-[#080d1a] border border-slate-800 hover:border-slate-700 text-xs sm:text-sm font-bold text-slate-300 flex items-center gap-2 cursor-pointer"
           >
-            <Download className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="hidden sm:inline">Export</span>
+            <Download className="w-4 h-4 text-cyan-400" />
+            <span>Export CSV</span>
           </button>
 
-          <label className="px-3 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs font-semibold text-slate-300 rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer">
-            <Upload className="w-3.5 h-3.5 text-amber-400" />
-            <span className="hidden sm:inline">Import</span>
+          <label className="px-4 py-2.5 bg-[#080d1a] border border-slate-800 hover:border-slate-700 text-xs sm:text-sm font-bold text-slate-300 flex items-center gap-2 cursor-pointer">
+            <Upload className="w-4 h-4 text-amber-400" />
+            <span>Import CSV</span>
             <input type="file" accept=".csv" onChange={handleImportCSV} className="hidden" />
           </label>
         </div>
       </div>
 
-      {/* Add Problem Form Drawer */}
+      {/* Add New Problem Entry Form Directly on Problems Page */}
       {!readOnly && <ProblemForm onAdd={onRefresh} />}
 
-      {/* Filter Toolbar */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+      {/* Broad Filter & Search Bar */}
+      <div className="bg-[#0e1626] border border-slate-800 p-5 space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           
-          {/* Search Input */}
           <div className="relative lg:col-span-2">
             <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search problems..."
+              placeholder="Search problem title..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs font-medium text-white placeholder-slate-500 outline-none focus:border-cyan-500/60"
+              className="w-full pl-10 pr-4 py-3 bg-[#080d1a] border border-slate-800 text-sm font-medium text-white placeholder-slate-500 outline-none focus:border-cyan-500/60"
             />
           </div>
 
-          {/* Pattern Selector */}
           <select
             value={selectedPattern}
             onChange={(e) => setSelectedPattern(e.target.value)}
-            className="py-2 px-3 bg-slate-950 border border-slate-800 rounded-xl text-xs font-medium text-slate-200 outline-none cursor-pointer"
+            className="py-3 px-4 bg-[#080d1a] border border-slate-800 text-sm font-medium text-slate-200 outline-none cursor-pointer"
           >
             {PATTERNS.map((p) => (
-              <option key={p} value={p}>{p === "All" ? "All Patterns" : p}</option>
+              <option key={p} value={p} className="bg-[#0e1626]">{p === "All" ? "All Patterns" : p}</option>
             ))}
           </select>
 
-          {/* Difficulty Filter */}
           <select
             value={selectedDifficulty}
             onChange={(e) => setSelectedDifficulty(e.target.value)}
-            className="py-2 px-3 bg-slate-950 border border-slate-800 rounded-xl text-xs font-medium text-slate-200 outline-none cursor-pointer"
+            className="py-3 px-4 bg-[#080d1a] border border-slate-800 text-sm font-medium text-slate-200 outline-none cursor-pointer"
           >
-            <option value="All">All Difficulties</option>
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
+            <option value="All" className="bg-[#0e1626]">All Difficulties</option>
+            <option value="Easy" className="bg-[#0e1626]">Easy</option>
+            <option value="Medium" className="bg-[#0e1626]">Medium</option>
+            <option value="Hard" className="bg-[#0e1626]">Hard</option>
           </select>
 
-          {/* Status Filter */}
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="py-2 px-3 bg-slate-950 border border-slate-800 rounded-xl text-xs font-medium text-slate-200 outline-none cursor-pointer"
+            className="py-3 px-4 bg-[#080d1a] border border-slate-800 text-sm font-medium text-slate-200 outline-none cursor-pointer"
           >
-            <option value="All">All Statuses</option>
-            <option value="Unsolved">Unsolved</option>
-            <option value="Attempted">Attempted</option>
-            <option value="Revision">Revision</option>
-            <option value="Solved">Solved</option>
+            <option value="All" className="bg-[#0e1626]">All Statuses</option>
+            <option value="Unsolved" className="bg-[#0e1626]">Unsolved</option>
+            <option value="Attempted" className="bg-[#0e1626]">Attempted</option>
+            <option value="Revision" className="bg-[#0e1626]">Revision</option>
+            <option value="Solved" className="bg-[#0e1626]">Solved</option>
           </select>
         </div>
 
         {/* Sort & Bulk Action Toolbar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800 text-xs">
-          
-          <div className="flex items-center gap-2">
-            <span className="text-slate-500 font-semibold">Sort by:</span>
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800 text-xs sm:text-sm">
+          <div className="flex items-center gap-3">
+            <span className="text-slate-400 font-bold">Sort by:</span>
             <button
               onClick={() => setSortBy(sortBy === "newest" ? "oldest" : "newest")}
-              className="text-slate-300 font-medium hover:text-cyan-400 underline cursor-pointer"
+              className="text-cyan-400 font-bold underline cursor-pointer"
             >
               {sortBy === "newest" ? "Newest First" : "Oldest First"}
             </button>
             <button
               onClick={() => setSortBy("difficulty")}
-              className="text-slate-300 font-medium hover:text-cyan-400 underline cursor-pointer ml-2"
+              className="text-cyan-400 font-bold underline cursor-pointer ml-2"
             >
               Difficulty
             </button>
           </div>
 
-          {/* Selected Count & Bulk Actions */}
           {selectedIds.length > 0 && !readOnly && (
             <div className="flex items-center gap-2">
               <span className="text-cyan-400 font-bold">{selectedIds.length} Selected</span>
               <button
                 onClick={handleBulkSolve}
-                className="px-2.5 py-1 bg-emerald-950/60 text-emerald-400 border border-emerald-500/30 rounded-lg text-xs font-bold hover:bg-emerald-900/40 cursor-pointer"
+                className="px-3 py-1.5 bg-emerald-950 text-emerald-400 border border-emerald-500/40 text-xs font-bold cursor-pointer"
               >
                 Mark Solved
               </button>
               <button
                 onClick={handleBulkDelete}
-                className="px-2.5 py-1 bg-rose-950/60 text-rose-400 border border-rose-500/30 rounded-lg text-xs font-bold hover:bg-rose-900/40 cursor-pointer"
+                className="px-3 py-1.5 bg-rose-950 text-rose-400 border border-rose-500/40 text-xs font-bold cursor-pointer"
               >
                 Delete Selected
               </button>
@@ -377,119 +351,113 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
 
       {/* VIEW 1: TABLE VIEW */}
       {activeView === "table" && (
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        <div className="bg-[#0e1626] border border-slate-800 overflow-hidden shadow-xl">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-slate-950 text-slate-400 font-semibold border-b border-slate-800 uppercase text-[0.65rem]">
+            <table className="w-full text-left text-xs sm:text-sm">
+              <thead className="bg-[#080d1a] text-slate-400 font-bold border-b border-slate-800 uppercase text-[0.7rem]">
                 <tr>
                   {!readOnly && (
-                    <th className="p-3.5 w-10">
+                    <th className="p-4 w-10">
                       <input
                         type="checkbox"
                         checked={selectedIds.length > 0 && selectedIds.length === filteredProblems.length}
                         onChange={toggleSelectAll}
-                        className="rounded bg-slate-950 border-slate-800 text-cyan-500 focus:ring-cyan-500/30 w-3.5 h-3.5 cursor-pointer"
+                        className="bg-[#080d1a] border-slate-800 text-cyan-500 focus:ring-cyan-500/30 w-4 h-4 cursor-pointer"
                       />
                     </th>
                   )}
-                  <th className="p-3.5">Problem Name</th>
-                  <th className="p-3.5">Pattern</th>
-                  <th className="p-3.5">Difficulty</th>
-                  <th className="p-3.5">Status</th>
-                  <th className="p-3.5">Platform</th>
-                  <th className="p-3.5">Notes</th>
-                  {!readOnly && <th className="p-3.5 text-right">Actions</th>}
+                  <th className="p-4">Problem Title</th>
+                  <th className="p-4">Pattern</th>
+                  <th className="p-4">Difficulty</th>
+                  <th className="p-4">Status</th>
+                  <th className="p-4">Notes</th>
+                  {!readOnly && <th className="p-4 text-right">Action</th>}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-slate-800/80">
                 {filteredProblems.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="p-8 text-center text-slate-500">
-                      No matching problems found.
+                    <td colSpan={7} className="p-8 text-center text-slate-500 font-semibold">
+                      No matching problems found. Add a problem above!
                     </td>
                   </tr>
                 ) : (
                   filteredProblems.map((problem) => {
                     const isSelected = selectedIds.includes(problem._id);
                     return (
-                      <tr key={problem._id} className={`hover:bg-slate-800/40 transition-colors ${isSelected ? "bg-cyan-950/20" : ""}`}>
+                      <tr key={problem._id} className={`hover:bg-[#080d1a]/80 transition-colors ${isSelected ? "bg-cyan-950/30" : ""}`}>
                         {!readOnly && (
-                          <td className="p-3.5">
+                          <td className="p-4">
                             <input
                               type="checkbox"
                               checked={isSelected}
                               onChange={() => toggleSelectOne(problem._id)}
-                              className="rounded bg-slate-950 border-slate-800 text-cyan-500 focus:ring-cyan-500/30 w-3.5 h-3.5 cursor-pointer"
+                              className="bg-[#080d1a] border-slate-800 text-cyan-500 focus:ring-cyan-500/30 w-4 h-4 cursor-pointer"
                             />
                           </td>
                         )}
-                        <td className="p-3.5 font-bold text-white">
-                          <span>{problem.problemName}</span>
+                        <td className="p-4 font-bold text-white text-sm sm:text-base">
+                          {problem.problemName}
                         </td>
-                        <td className="p-3.5">
-                          <span className="px-2.5 py-1 rounded-lg text-[0.68rem] font-bold bg-blue-950/40 text-blue-400 border border-blue-500/20">
+                        <td className="p-4">
+                          <span className="px-3 py-1 text-xs font-bold bg-blue-950 text-blue-400 border border-blue-500/30">
                             {problem.pattern}
                           </span>
                         </td>
-                        <td className="p-3.5">
+                        <td className="p-4">
                           <span
-                            className={`px-2.5 py-1 rounded-lg text-[0.68rem] font-bold border ${
+                            className={`px-3 py-1 text-xs font-bold border ${
                               problem.difficulty === "Easy"
-                                ? "bg-emerald-950/40 text-emerald-400 border-emerald-500/20"
+                                ? "bg-emerald-950 text-emerald-400 border-emerald-500/30"
                                 : problem.difficulty === "Medium"
-                                ? "bg-amber-950/40 text-amber-400 border-amber-500/20"
-                                : "bg-rose-950/40 text-rose-400 border-rose-500/20"
+                                ? "bg-amber-950 text-amber-400 border-amber-500/30"
+                                : "bg-rose-950 text-rose-400 border-rose-500/30"
                             }`}
                           >
                             {problem.difficulty}
                           </span>
                         </td>
-                        <td className="p-3.5">
+                        <td className="p-4">
                           <button
                             onClick={() => handleStatusToggle(problem)}
-                            className={`px-2.5 py-1 rounded-lg text-[0.68rem] font-bold border cursor-pointer transition-transform hover:scale-105 ${
+                            className={`px-3 py-1 text-xs font-bold border cursor-pointer ${
                               problem.status === "Solved"
-                                ? "bg-emerald-950/60 text-emerald-400 border-emerald-500/30"
+                                ? "bg-emerald-950 text-emerald-400 border-emerald-500/40"
                                 : problem.status === "Revision"
-                                ? "bg-purple-950/60 text-purple-400 border-purple-500/30"
+                                ? "bg-purple-950 text-purple-400 border-purple-500/40"
                                 : problem.status === "Attempted"
-                                ? "bg-amber-950/60 text-amber-400 border-amber-500/30"
-                                : "bg-slate-800 text-slate-400 border-slate-700"
+                                ? "bg-amber-950 text-amber-400 border-amber-500/40"
+                                : "bg-slate-900 text-slate-400 border-slate-700"
                             }`}
                           >
                             {problem.status}
                           </button>
                         </td>
-                        <td className="p-3.5 text-slate-400 font-mono">
-                          {problem.platform || "LeetCode"}
-                        </td>
-                        <td className="p-3.5">
+                        <td className="p-4">
                           <button
                             onClick={() => {
                               setActiveNotesProblem(problem);
                               setNotesText(problem.notes || "");
                             }}
-                            className="text-slate-400 hover:text-cyan-400 flex items-center gap-1 cursor-pointer font-medium"
+                            className="text-slate-300 hover:text-cyan-400 flex items-center gap-1.5 cursor-pointer text-xs font-semibold"
                           >
-                            <BookOpen className="w-3.5 h-3.5" />
-                            <span>{problem.notes ? "View Note" : "+ Add Note"}</span>
+                            <BookOpen className="w-4 h-4" />
+                            <span>{problem.notes ? "View Note" : "+ Note"}</span>
                           </button>
                         </td>
                         {!readOnly && (
-                          <td className="p-3.5 text-right">
-                            <div className="flex items-center justify-end gap-2">
-                              <button
-                                onClick={async () => {
-                                  if (window.confirm("Delete problem?")) {
-                                    await api.delete(`/problems/${problem._id}`);
-                                    onRefresh();
-                                  }
-                                }}
-                                className="p-1.5 text-slate-500 hover:text-rose-400 rounded-lg hover:bg-rose-500/10 cursor-pointer"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
+                          <td className="p-4 text-right">
+                            <button
+                              onClick={async () => {
+                                if (window.confirm("Delete problem?")) {
+                                  await api.delete(`/problems/${problem._id}`);
+                                  onRefresh();
+                                }
+                              }}
+                              className="p-1.5 text-slate-500 hover:text-rose-400 cursor-pointer"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
                           </td>
                         )}
                       </tr>
@@ -502,18 +470,18 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
         </div>
       )}
 
-      {/* VIEW 2: KANBAN BOARD VIEW */}
+      {/* VIEW 2: KANBAN VIEW */}
       {activeView === "kanban" && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {["Unsolved", "Attempted", "Revision", "Solved"].map((colStatus) => {
             const colProblems = filteredProblems.filter((p) => p.status === colStatus);
             return (
-              <div key={colStatus} className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+              <div key={colStatus} className="bg-[#0e1626] border border-slate-800 p-4 space-y-3">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                  <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-300">
+                  <h3 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-slate-300">
                     {colStatus}
                   </h3>
-                  <span className="text-xs font-bold text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/20">
+                  <span className="text-xs font-bold text-cyan-400 bg-cyan-950 px-2 py-0.5 border border-cyan-500/30">
                     {colProblems.length}
                   </span>
                 </div>
@@ -522,29 +490,29 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
                   {colProblems.map((prob) => (
                     <div
                       key={prob._id}
-                      className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-2 hover:border-cyan-500/30 transition-all shadow-md"
+                      className="p-4 bg-[#080d1a] border border-slate-800 space-y-2 hover:border-cyan-500/40 transition-all"
                     >
-                      <h4 className="text-xs font-bold text-white">{prob.problemName}</h4>
-                      <div className="flex items-center justify-between text-[0.65rem]">
-                        <span className="px-2 py-0.5 rounded bg-blue-950/40 text-blue-400 border border-blue-500/20">
+                      <h4 className="text-sm font-bold text-white">{prob.problemName}</h4>
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="px-2 py-0.5 bg-blue-950 text-blue-400 border border-blue-500/30 font-bold">
                           {prob.pattern}
                         </span>
                         <span
-                          className={`px-2 py-0.5 rounded border font-bold ${
+                          className={`px-2 py-0.5 border font-bold ${
                             prob.difficulty === "Easy"
-                              ? "bg-emerald-950/40 text-emerald-400 border-emerald-500/20"
+                              ? "bg-emerald-950 text-emerald-400 border-emerald-500/30"
                               : prob.difficulty === "Medium"
-                              ? "bg-amber-950/40 text-amber-400 border-amber-500/20"
-                              : "bg-rose-950/40 text-rose-400 border-rose-500/20"
+                              ? "bg-amber-950 text-amber-400 border-amber-500/30"
+                              : "bg-rose-950 text-rose-400 border-rose-500/30"
                           }`}
                         >
                           {prob.difficulty}
                         </span>
                       </div>
-                      <div className="pt-2 border-t border-slate-800/60 flex items-center justify-between">
+                      <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs">
                         <button
                           onClick={() => handleStatusToggle(prob)}
-                          className="text-[0.65rem] text-cyan-400 font-semibold hover:underline cursor-pointer"
+                          className="text-cyan-400 font-bold hover:underline cursor-pointer"
                         >
                           Move Next →
                         </button>
@@ -553,9 +521,9 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
                             setActiveNotesProblem(prob);
                             setNotesText(prob.notes || "");
                           }}
-                          className="text-slate-500 hover:text-slate-300"
+                          className="text-slate-400 hover:text-white"
                         >
-                          <BookOpen className="w-3.5 h-3.5" />
+                          <BookOpen className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
@@ -567,39 +535,39 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
         </div>
       )}
 
-      {/* VIEW 3: GRID CARDS VIEW */}
+      {/* VIEW 3: GRID VIEW */}
       {activeView === "grid" && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {filteredProblems.map((prob) => (
             <div
               key={prob._id}
-              className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 hover:border-cyan-500/30 transition-all shadow-md"
+              className="p-5 bg-[#0e1626] border border-slate-800 space-y-3 hover:border-cyan-500/40 transition-all"
             >
               <div className="flex items-start justify-between gap-2">
-                <h4 className="text-sm font-bold text-white">{prob.problemName}</h4>
+                <h4 className="text-base font-bold text-white">{prob.problemName}</h4>
                 <button
                   onClick={() => handleStatusToggle(prob)}
-                  className={`px-2 py-0.5 rounded text-[0.65rem] font-bold border cursor-pointer ${
+                  className={`px-2.5 py-1 text-xs font-bold border cursor-pointer ${
                     prob.status === "Solved"
-                      ? "bg-emerald-950/60 text-emerald-400 border-emerald-500/30"
-                      : "bg-slate-800 text-slate-400 border-slate-700"
+                      ? "bg-emerald-950 text-emerald-400 border-emerald-500/40"
+                      : "bg-slate-900 text-slate-400 border-slate-700"
                   }`}
                 >
                   {prob.status}
                 </button>
               </div>
 
-              <div className="flex flex-wrap gap-1.5 text-[0.65rem]">
-                <span className="px-2 py-0.5 rounded bg-blue-950/40 text-blue-400 border border-blue-500/20 font-bold">
+              <div className="flex items-center gap-2 text-xs">
+                <span className="px-2.5 py-1 bg-blue-950 text-blue-400 border border-blue-500/30 font-bold">
                   {prob.pattern}
                 </span>
                 <span
-                  className={`px-2 py-0.5 rounded border font-bold ${
+                  className={`px-2.5 py-1 border font-bold ${
                     prob.difficulty === "Easy"
-                      ? "bg-emerald-950/40 text-emerald-400 border-emerald-500/20"
+                      ? "bg-emerald-950 text-emerald-400 border-emerald-500/30"
                       : prob.difficulty === "Medium"
-                      ? "bg-amber-950/40 text-amber-400 border-amber-500/20"
-                      : "bg-rose-950/40 text-rose-400 border-rose-500/20"
+                      ? "bg-amber-950 text-amber-400 border-amber-500/30"
+                      : "bg-rose-950 text-rose-400 border-rose-500/30"
                   }`}
                 >
                   {prob.difficulty}
@@ -607,19 +575,19 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
               </div>
 
               {prob.notes && (
-                <p className="text-[0.72rem] text-slate-400 bg-slate-950 p-2.5 rounded-lg border border-slate-800/80 font-mono">
+                <p className="text-xs text-slate-300 bg-[#080d1a] p-3 border border-slate-800 font-mono">
                   {prob.notes}
                 </p>
               )}
 
               {!readOnly && (
-                <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
+                <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs font-bold">
                   <button
                     onClick={() => {
                       setActiveNotesProblem(prob);
                       setNotesText(prob.notes || "");
                     }}
-                    className="text-cyan-400 font-semibold hover:underline cursor-pointer"
+                    className="text-cyan-400 hover:underline cursor-pointer"
                   >
                     Edit Notes
                   </button>
@@ -630,9 +598,9 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
                         onRefresh();
                       }
                     }}
-                    className="text-slate-500 hover:text-rose-400"
+                    className="text-slate-500 hover:text-rose-400 cursor-pointer"
                   >
-                    <Trash2 className="w-3.5 h-3.5" />
+                    Delete
                   </button>
                 </div>
               )}
@@ -641,34 +609,34 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
         </div>
       )}
 
-      {/* Slide-over Notes Drawer Modal */}
+      {/* Slide-over Notes Drawer */}
       {activeNotesProblem && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-end animate-fade-slide-up">
-          <div className="w-full max-w-lg h-full bg-slate-900 border-l border-slate-800 p-6 flex flex-col justify-between shadow-2xl">
+          <div className="w-full max-w-lg h-full bg-[#0e1626] border-l border-slate-800 p-6 flex flex-col justify-between shadow-2xl">
             <div className="space-y-4">
               <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                 <div className="flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-cyan-400" />
-                  <h3 className="text-sm font-bold text-white">Implementation Notes</h3>
+                  <BookOpen className="w-5 h-5 text-cyan-400" />
+                  <h3 className="text-base font-bold text-white">Implementation Notes</h3>
                 </div>
-                <button onClick={() => setActiveNotesProblem(null)} className="text-slate-500 hover:text-slate-300">
-                  <X className="w-4 h-4" />
+                <button onClick={() => setActiveNotesProblem(null)} className="text-slate-400 hover:text-white">
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
               <div>
-                <span className="text-xs font-extrabold text-white block">{activeNotesProblem.problemName}</span>
-                <span className="text-[0.68rem] text-cyan-400 font-semibold">{activeNotesProblem.pattern} • {activeNotesProblem.difficulty}</span>
+                <span className="text-base font-bold text-white block">{activeNotesProblem.problemName}</span>
+                <span className="text-xs text-cyan-400 font-bold">{activeNotesProblem.pattern} • {activeNotesProblem.difficulty}</span>
               </div>
 
               <div>
                 <label className="block text-xs font-semibold text-slate-400 mb-1">Approach & Solution Notes</label>
                 <textarea
-                  rows={10}
+                  rows={12}
                   value={notesText}
                   onChange={(e) => setNotesText(e.target.value)}
                   placeholder="e.g. Use Sliding Window. Maintain left pointer. Time O(N), Space O(1)."
-                  className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-600 font-mono outline-none focus:border-cyan-500/60"
+                  className="w-full p-4 bg-[#080d1a] border border-slate-800 text-sm text-white placeholder-slate-600 font-mono outline-none focus:border-cyan-500/60"
                 />
               </div>
             </div>
@@ -677,13 +645,13 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
               <button
                 onClick={handleSaveNotes}
                 disabled={savingNotes}
-                className="flex-1 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-xl shadow transition-colors cursor-pointer"
+                className="flex-1 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm shadow cursor-pointer"
               >
                 {savingNotes ? "Saving..." : "Save Note"}
               </button>
               <button
                 onClick={() => setActiveNotesProblem(null)}
-                className="px-4 py-2.5 bg-slate-800 text-slate-300 font-semibold text-xs rounded-xl hover:bg-slate-700 cursor-pointer"
+                className="px-6 py-3 bg-slate-800 text-slate-300 font-bold text-sm hover:bg-slate-700 cursor-pointer"
               >
                 Cancel
               </button>
