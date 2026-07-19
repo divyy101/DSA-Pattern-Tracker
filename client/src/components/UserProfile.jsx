@@ -3,8 +3,6 @@ import api from "../api";
 import { useAppStore } from "../store/useAppStore";
 import {
   User,
-  Mail,
-  Code2,
   Download,
   Share2,
   CheckCircle2,
@@ -101,35 +99,35 @@ function UserProfile({ problems = [] }) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 space-y-6 animate-fade-slide-up">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6 animate-fade-slide-up">
       
       {/* Profile Header */}
-      <div className="bg-[#0e1626] border border-slate-800 rounded-none p-6 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-md">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-none bg-cyan-500 flex items-center justify-center text-xl font-black text-slate-950">
+      <div className="bg-[#0e1626] border border-slate-800 rounded-none p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-md w-full">
+        <div className="flex items-center gap-5">
+          <div className="w-16 h-16 rounded-none bg-cyan-500 flex items-center justify-center text-2xl font-black text-slate-950">
             {formData.name ? formData.name.charAt(0).toUpperCase() : "U"}
           </div>
           <div>
-            <h1 className="text-xl font-extrabold text-white">{formData.name || "Student Coder"}</h1>
-            <p className="text-xs text-slate-400 font-mono mt-0.5">{formData.email}</p>
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-none text-xs font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/30 mt-2">
-              <ShieldCheck className="w-3.5 h-3.5" />
+            <h1 className="text-2xl font-black text-white">{formData.name || "Student Coder"}</h1>
+            <p className="text-sm text-slate-400 font-mono mt-1">{formData.email}</p>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-none text-xs font-extrabold bg-cyan-950 text-cyan-300 border border-cyan-500/30 mt-2">
+              <ShieldCheck className="w-4 h-4" />
               Verified Student Profile
             </div>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={handleExportPDF}
-            className="px-4 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs sm:text-sm rounded-none flex items-center gap-2 transition-colors cursor-pointer"
+            className="px-5 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-sm rounded-none flex items-center gap-2 transition-colors cursor-pointer"
           >
             <Download className="w-4 h-4" />
             <span>Export Resume PDF</span>
           </button>
           <button
             onClick={handleShareLinkedIn}
-            className="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm rounded-none flex items-center gap-2 transition-colors cursor-pointer"
+            className="px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white font-black text-sm rounded-none flex items-center gap-2 transition-colors cursor-pointer"
           >
             <Share2 className="w-4 h-4" />
             <span>Share LinkedIn</span>
@@ -138,69 +136,69 @@ function UserProfile({ problems = [] }) {
       </div>
 
       {/* Edit Form */}
-      <div className="bg-[#0e1626] border border-slate-800 rounded-none p-6 space-y-5">
-        <div className="border-b border-slate-800 pb-3">
-          <h3 className="text-base font-bold text-white">Profile Settings & Target Role</h3>
+      <div className="bg-[#0e1626] border border-slate-800 rounded-none p-6 sm:p-8 space-y-6 w-full">
+        <div className="border-b border-slate-800 pb-4">
+          <h3 className="text-xl font-black text-white">Profile Settings & Target Role</h3>
         </div>
 
         {message && (
-          <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 rounded-none text-xs flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+          <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 rounded-none text-sm font-bold flex items-center gap-2">
+            <CheckCircle2 className="w-5 h-5 text-emerald-400" />
             <span>{message}</span>
           </div>
         )}
 
-        <form onSubmit={handleSaveProfile} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <form onSubmit={handleSaveProfile} className="space-y-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Full Name</label>
+              <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-2">Full Name</label>
               <input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-[#080d1a] border border-slate-800 rounded-none text-sm text-white outline-none focus:border-cyan-500/60"
+                className="w-full px-4 py-3.5 bg-[#080d1a] border border-slate-800 rounded-none text-base font-medium text-white outline-none focus:border-cyan-500/60"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Email Address</label>
+              <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-2">Email Address</label>
               <input
                 type="email"
                 disabled
                 value={formData.email}
-                className="w-full px-4 py-3 bg-[#080d1a]/50 border border-slate-800 text-slate-500 rounded-none text-sm outline-none cursor-not-allowed"
+                className="w-full px-4 py-3.5 bg-[#080d1a]/50 border border-slate-800 text-slate-500 rounded-none text-base outline-none cursor-not-allowed font-medium"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 w-full">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">LeetCode Username</label>
+              <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-2">LeetCode Username</label>
               <input
                 type="text"
                 name="leetcodeUsername"
                 value={formData.leetcodeUsername}
                 onChange={handleChange}
                 placeholder="e.g. tour_ist"
-                className="w-full px-4 py-3 bg-[#080d1a] border border-slate-800 rounded-none text-sm text-white outline-none focus:border-cyan-500/60"
+                className="w-full px-4 py-3.5 bg-[#080d1a] border border-slate-800 rounded-none text-base font-medium text-white outline-none focus:border-cyan-500/60"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Target Company</label>
+              <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-2">Target Company</label>
               <input
                 type="text"
                 name="targetCompany"
                 value={formData.targetCompany}
                 onChange={handleChange}
                 placeholder="e.g. Amazon / Google / FAANG"
-                className="w-full px-4 py-3 bg-[#080d1a] border border-slate-800 rounded-none text-sm text-white outline-none focus:border-cyan-500/60"
+                className="w-full px-4 py-3.5 bg-[#080d1a] border border-slate-800 rounded-none text-base font-medium text-white outline-none focus:border-cyan-500/60"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Daily Target (Problems)</label>
+              <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-2">Daily Target (Problems)</label>
               <input
                 type="number"
                 min={1}
@@ -208,19 +206,19 @@ function UserProfile({ problems = [] }) {
                 name="dailyGoal"
                 value={formData.dailyGoal}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-[#080d1a] border border-slate-800 rounded-none text-sm text-white outline-none focus:border-cyan-500/60"
+                className="w-full px-4 py-3.5 bg-[#080d1a] border border-slate-800 rounded-none text-base font-medium text-white outline-none focus:border-cyan-500/60"
               />
             </div>
           </div>
 
-          <div className="pt-2">
+          <div className="pt-3">
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs sm:text-sm rounded-none flex items-center gap-2 cursor-pointer transition-colors"
+              className="px-8 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-sm rounded-none flex items-center gap-2 cursor-pointer transition-colors"
             >
-              <Save className="w-4 h-4" />
-              <span>{saving ? "Saving..." : "Save Settings"}</span>
+              <Save className="w-5 h-5" />
+              <span>{saving ? "Saving..." : "Save Profile Settings"}</span>
             </button>
           </div>
         </form>

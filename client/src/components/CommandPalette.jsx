@@ -3,13 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useAppStore } from "../store/useAppStore";
 import {
   Search,
-  LayoutDashboard,
   Code2,
   BarChart3,
   Flame,
   User,
   PlusCircle,
-  Sparkles,
   X,
   ArrowRight
 } from "lucide-react";
@@ -36,12 +34,10 @@ function CommandPalette({ problems = [], onOpenAddModal }) {
   if (!isCommandPaletteOpen) return null;
 
   const routes = [
-    { label: "Go to Dashboard", path: "/dashboard", icon: LayoutDashboard, category: "Navigation" },
-    { label: "View All Problems", path: "/problems", icon: Code2, category: "Navigation" },
     { label: "Connect & Sync LeetCode", path: "/leetcode", icon: Flame, category: "Navigation" },
     { label: "Open Performance Analytics", path: "/analytics", icon: BarChart3, category: "Navigation" },
+    { label: "View & Add Problems", path: "/problems", icon: Code2, category: "Navigation" },
     { label: "My Profile Settings", path: "/profile", icon: User, category: "Navigation" },
-    { label: "About Platform", path: "/about", icon: Sparkles, category: "Navigation" },
   ];
 
   const filteredRoutes = routes.filter((r) =>
@@ -61,11 +57,11 @@ function CommandPalette({ problems = [], onOpenAddModal }) {
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-start justify-center pt-20 px-4 animate-fade-slide-up">
       <div
-        className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden"
+        className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-none shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Input Bar */}
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 bg-slate-950/60">
+        <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 bg-slate-950">
           <Search className="w-5 h-5 text-cyan-400 shrink-0" />
           <input
             autoFocus
@@ -73,11 +69,11 @@ function CommandPalette({ problems = [], onOpenAddModal }) {
             placeholder="Type a command or search problem name..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full bg-transparent text-sm text-slate-100 placeholder-slate-500 outline-none font-medium"
+            className="w-full bg-transparent text-sm font-medium text-slate-100 placeholder-slate-500 outline-none"
           />
           <button
             onClick={() => setCommandPaletteOpen(false)}
-            className="p-1 text-slate-500 hover:text-slate-300 rounded-lg cursor-pointer"
+            className="p-1 text-slate-500 hover:text-slate-300 cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -85,28 +81,6 @@ function CommandPalette({ problems = [], onOpenAddModal }) {
 
         {/* Command List Body */}
         <div className="max-h-80 overflow-y-auto p-2 space-y-3">
-          {/* Quick Actions */}
-          {onOpenAddModal && (
-            <div>
-              <span className="text-[0.65rem] font-bold uppercase tracking-wider text-slate-500 px-3 py-1 block">
-                Quick Action
-              </span>
-              <button
-                onClick={() => {
-                  setCommandPaletteOpen(false);
-                  onOpenAddModal();
-                }}
-                className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-cyan-950/40 hover:text-cyan-400 transition-colors cursor-pointer group"
-              >
-                <div className="flex items-center gap-2.5">
-                  <PlusCircle className="w-4 h-4 text-cyan-400" />
-                  <span>Add New Problem Entry</span>
-                </div>
-                <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </button>
-            </div>
-          )}
-
           {/* Navigation Items */}
           {filteredRoutes.length > 0 && (
             <div>
@@ -120,10 +94,10 @@ function CommandPalette({ problems = [], onOpenAddModal }) {
                     <button
                       key={route.path}
                       onClick={() => handleSelectRoute(route.path)}
-                      className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 hover:text-cyan-400 transition-colors cursor-pointer group"
+                      className="w-full flex items-center justify-between px-3 py-2 text-sm font-bold text-slate-300 hover:bg-slate-800 hover:text-cyan-400 transition-colors cursor-pointer group"
                     >
                       <div className="flex items-center gap-2.5">
-                        <Icon className="w-4 h-4 text-slate-400 group-hover:text-cyan-400 transition-colors" />
+                        <Icon className="w-4 h-4 text-slate-400 group-hover:text-cyan-400" />
                         <span>{route.label}</span>
                       </div>
                       <span className="text-[0.65rem] text-slate-500 font-mono group-hover:text-cyan-400">
@@ -147,23 +121,12 @@ function CommandPalette({ problems = [], onOpenAddModal }) {
                   <button
                     key={prob._id}
                     onClick={() => handleSelectRoute("/problems")}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs text-slate-300 hover:bg-slate-800 transition-colors cursor-pointer"
+                    className="w-full flex items-center justify-between px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 transition-colors cursor-pointer"
                   >
                     <span className="font-semibold text-slate-200">{prob.problemName}</span>
                     <div className="flex items-center gap-1.5">
-                      <span className="px-2 py-0.5 rounded text-[0.65rem] font-bold bg-slate-800 text-cyan-400 border border-slate-700">
+                      <span className="px-2 py-0.5 text-[0.65rem] font-bold bg-slate-800 text-cyan-400 border border-slate-700">
                         {prob.pattern}
-                      </span>
-                      <span
-                        className={`px-2 py-0.5 rounded text-[0.65rem] font-bold border ${
-                          prob.difficulty === "Easy"
-                            ? "bg-emerald-950/40 text-emerald-400 border-emerald-500/20"
-                            : prob.difficulty === "Medium"
-                            ? "bg-amber-950/40 text-amber-400 border-amber-500/20"
-                            : "bg-rose-950/40 text-rose-400 border-rose-500/20"
-                        }`}
-                      >
-                        {prob.difficulty}
                       </span>
                     </div>
                   </button>
@@ -174,9 +137,9 @@ function CommandPalette({ problems = [], onOpenAddModal }) {
         </div>
 
         {/* Footer Shortcut Legend */}
-        <div className="px-4 py-2 border-t border-slate-800 bg-slate-950/40 flex items-center justify-between text-[0.68rem] text-slate-500">
+        <div className="px-4 py-2 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-[0.68rem] text-slate-500 font-mono">
           <span>Use Esc to exit</span>
-          <span className="font-mono">Ctrl + K</span>
+          <span>Ctrl + K</span>
         </div>
       </div>
     </div>

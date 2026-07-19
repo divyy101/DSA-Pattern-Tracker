@@ -6,16 +6,12 @@ import {
   Kanban as KanbanIcon,
   Grid as GridIcon,
   Search,
-  Plus,
   Trash2,
-  CheckCircle,
   Download,
   Upload,
   BookOpen,
   X,
-  Code2,
-  Layers,
-  ChevronDown
+  Code2
 } from "lucide-react";
 import ProblemForm from "./ProblemForm";
 
@@ -197,26 +193,26 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6 animate-fade-slide-up">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6 animate-fade-slide-up">
       
       {/* Header Bar */}
-      <div className="bg-[#0e1626] border border-slate-800 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#0e1626] border border-slate-800 p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4 w-full">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2">
-            <Code2 className="w-6 h-6 text-cyan-400" />
+          <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight flex items-center gap-3">
+            <Code2 className="w-8 h-8 text-cyan-400" />
             <span>Problem Bank & Tracker</span>
           </h1>
-          <p className="text-sm text-slate-400 mt-1 font-medium">
+          <p className="text-sm sm:text-base text-slate-400 mt-1 font-medium">
             Add new problems below or manage existing entries in Table, Kanban, or Grid view.
           </p>
         </div>
 
         {/* View Switcher & Actions */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-3">
           <div className="bg-[#080d1a] border border-slate-800 p-1 flex items-center gap-1">
             <button
               onClick={() => setActiveView("table")}
-              className={`px-4 py-2 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer ${
+              className={`px-4 py-2.5 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer ${
                 activeView === "table" ? "bg-cyan-950 text-cyan-400 border border-cyan-500/40" : "text-slate-400 hover:text-white"
               }`}
             >
@@ -225,7 +221,7 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
             </button>
             <button
               onClick={() => setActiveView("kanban")}
-              className={`px-4 py-2 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer ${
+              className={`px-4 py-2.5 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer ${
                 activeView === "kanban" ? "bg-cyan-950 text-cyan-400 border border-cyan-500/40" : "text-slate-400 hover:text-white"
               }`}
             >
@@ -234,7 +230,7 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
             </button>
             <button
               onClick={() => setActiveView("grid")}
-              className={`px-4 py-2 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer ${
+              className={`px-4 py-2.5 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer ${
                 activeView === "grid" ? "bg-cyan-950 text-cyan-400 border border-cyan-500/40" : "text-slate-400 hover:text-white"
               }`}
             >
@@ -245,13 +241,13 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
 
           <button
             onClick={handleExportCSV}
-            className="px-4 py-2.5 bg-[#080d1a] border border-slate-800 hover:border-slate-700 text-xs sm:text-sm font-bold text-slate-300 flex items-center gap-2 cursor-pointer"
+            className="px-4 py-3 bg-[#080d1a] border border-slate-800 hover:border-slate-700 text-xs sm:text-sm font-bold text-slate-300 flex items-center gap-2 cursor-pointer"
           >
             <Download className="w-4 h-4 text-cyan-400" />
             <span>Export CSV</span>
           </button>
 
-          <label className="px-4 py-2.5 bg-[#080d1a] border border-slate-800 hover:border-slate-700 text-xs sm:text-sm font-bold text-slate-300 flex items-center gap-2 cursor-pointer">
+          <label className="px-4 py-3 bg-[#080d1a] border border-slate-800 hover:border-slate-700 text-xs sm:text-sm font-bold text-slate-300 flex items-center gap-2 cursor-pointer">
             <Upload className="w-4 h-4 text-amber-400" />
             <span>Import CSV</span>
             <input type="file" accept=".csv" onChange={handleImportCSV} className="hidden" />
@@ -263,24 +259,24 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
       {!readOnly && <ProblemForm onAdd={onRefresh} />}
 
       {/* Broad Filter & Search Bar */}
-      <div className="bg-[#0e1626] border border-slate-800 p-5 space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+      <div className="bg-[#0e1626] border border-slate-800 p-6 space-y-4 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 w-full">
           
           <div className="relative lg:col-span-2">
-            <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-5 h-5 text-slate-500 absolute left-4 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search problem title..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-[#080d1a] border border-slate-800 text-sm font-medium text-white placeholder-slate-500 outline-none focus:border-cyan-500/60"
+              className="w-full pl-12 pr-4 py-3.5 bg-[#080d1a] border border-slate-800 text-base font-medium text-white placeholder-slate-500 outline-none focus:border-cyan-500/60"
             />
           </div>
 
           <select
             value={selectedPattern}
             onChange={(e) => setSelectedPattern(e.target.value)}
-            className="py-3 px-4 bg-[#080d1a] border border-slate-800 text-sm font-medium text-slate-200 outline-none cursor-pointer"
+            className="py-3.5 px-4 bg-[#080d1a] border border-slate-800 text-base font-medium text-slate-200 outline-none cursor-pointer"
           >
             {PATTERNS.map((p) => (
               <option key={p} value={p} className="bg-[#0e1626]">{p === "All" ? "All Patterns" : p}</option>
@@ -290,7 +286,7 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
           <select
             value={selectedDifficulty}
             onChange={(e) => setSelectedDifficulty(e.target.value)}
-            className="py-3 px-4 bg-[#080d1a] border border-slate-800 text-sm font-medium text-slate-200 outline-none cursor-pointer"
+            className="py-3.5 px-4 bg-[#080d1a] border border-slate-800 text-base font-medium text-slate-200 outline-none cursor-pointer"
           >
             <option value="All" className="bg-[#0e1626]">All Difficulties</option>
             <option value="Easy" className="bg-[#0e1626]">Easy</option>
@@ -301,7 +297,7 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="py-3 px-4 bg-[#080d1a] border border-slate-800 text-sm font-medium text-slate-200 outline-none cursor-pointer"
+            className="py-3.5 px-4 bg-[#080d1a] border border-slate-800 text-base font-medium text-slate-200 outline-none cursor-pointer"
           >
             <option value="All" className="bg-[#0e1626]">All Statuses</option>
             <option value="Unsolved" className="bg-[#0e1626]">Unsolved</option>
@@ -312,8 +308,8 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
         </div>
 
         {/* Sort & Bulk Action Toolbar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800 text-xs sm:text-sm">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-800 text-sm w-full">
+          <div className="flex items-center gap-4">
             <span className="text-slate-400 font-bold">Sort by:</span>
             <button
               onClick={() => setSortBy(sortBy === "newest" ? "oldest" : "newest")}
@@ -323,24 +319,24 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
             </button>
             <button
               onClick={() => setSortBy("difficulty")}
-              className="text-cyan-400 font-bold underline cursor-pointer ml-2"
+              className="text-cyan-400 font-bold underline cursor-pointer"
             >
               Difficulty
             </button>
           </div>
 
           {selectedIds.length > 0 && !readOnly && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <span className="text-cyan-400 font-bold">{selectedIds.length} Selected</span>
               <button
                 onClick={handleBulkSolve}
-                className="px-3 py-1.5 bg-emerald-950 text-emerald-400 border border-emerald-500/40 text-xs font-bold cursor-pointer"
+                className="px-4 py-2 bg-emerald-950 text-emerald-400 border border-emerald-500/40 text-xs font-bold cursor-pointer"
               >
                 Mark Solved
               </button>
               <button
                 onClick={handleBulkDelete}
-                className="px-3 py-1.5 bg-rose-950 text-rose-400 border border-rose-500/40 text-xs font-bold cursor-pointer"
+                className="px-4 py-2 bg-rose-950 text-rose-400 border border-rose-500/40 text-xs font-bold cursor-pointer"
               >
                 Delete Selected
               </button>
@@ -351,13 +347,13 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
 
       {/* VIEW 1: TABLE VIEW */}
       {activeView === "table" && (
-        <div className="bg-[#0e1626] border border-slate-800 overflow-hidden shadow-xl">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-[#080d1a] text-slate-400 font-bold border-b border-slate-800 uppercase text-[0.7rem]">
+        <div className="bg-[#0e1626] border border-slate-800 overflow-hidden shadow-xl w-full">
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-left text-sm sm:text-base">
+              <thead className="bg-[#080d1a] text-slate-400 font-extrabold border-b border-slate-800 uppercase text-xs">
                 <tr>
                   {!readOnly && (
-                    <th className="p-4 w-10">
+                    <th className="p-4 w-12">
                       <input
                         type="checkbox"
                         checked={selectedIds.length > 0 && selectedIds.length === filteredProblems.length}
@@ -377,7 +373,7 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
               <tbody className="divide-y divide-slate-800/80">
                 {filteredProblems.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="p-8 text-center text-slate-500 font-semibold">
+                    <td colSpan={7} className="p-10 text-center text-slate-500 font-semibold text-base">
                       No matching problems found. Add a problem above!
                     </td>
                   </tr>
@@ -396,7 +392,7 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
                             />
                           </td>
                         )}
-                        <td className="p-4 font-bold text-white text-sm sm:text-base">
+                        <td className="p-4 font-extrabold text-white text-base">
                           {problem.problemName}
                         </td>
                         <td className="p-4">
@@ -420,7 +416,7 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
                         <td className="p-4">
                           <button
                             onClick={() => handleStatusToggle(problem)}
-                            className={`px-3 py-1 text-xs font-bold border cursor-pointer ${
+                            className={`px-3.5 py-1.5 text-xs font-black border cursor-pointer ${
                               problem.status === "Solved"
                                 ? "bg-emerald-950 text-emerald-400 border-emerald-500/40"
                                 : problem.status === "Revision"
@@ -439,7 +435,7 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
                               setActiveNotesProblem(problem);
                               setNotesText(problem.notes || "");
                             }}
-                            className="text-slate-300 hover:text-cyan-400 flex items-center gap-1.5 cursor-pointer text-xs font-semibold"
+                            className="text-slate-300 hover:text-cyan-400 flex items-center gap-2 cursor-pointer text-xs font-bold"
                           >
                             <BookOpen className="w-4 h-4" />
                             <span>{problem.notes ? "View Note" : "+ Note"}</span>
@@ -454,7 +450,7 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
                                   onRefresh();
                                 }
                               }}
-                              className="p-1.5 text-slate-500 hover:text-rose-400 cursor-pointer"
+                              className="p-2 text-slate-500 hover:text-rose-400 cursor-pointer"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
@@ -472,33 +468,33 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
 
       {/* VIEW 2: KANBAN VIEW */}
       {activeView === "kanban" && (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 w-full">
           {["Unsolved", "Attempted", "Revision", "Solved"].map((colStatus) => {
             const colProblems = filteredProblems.filter((p) => p.status === colStatus);
             return (
-              <div key={colStatus} className="bg-[#0e1626] border border-slate-800 p-4 space-y-3">
-                <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                  <h3 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-slate-300">
+              <div key={colStatus} className="bg-[#0e1626] border border-slate-800 p-5 space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                  <h3 className="text-sm sm:text-base font-extrabold uppercase tracking-wider text-slate-300">
                     {colStatus}
                   </h3>
-                  <span className="text-xs font-bold text-cyan-400 bg-cyan-950 px-2 py-0.5 border border-cyan-500/30">
+                  <span className="text-xs font-bold text-cyan-400 bg-cyan-950 px-2.5 py-1 border border-cyan-500/30">
                     {colProblems.length}
                   </span>
                 </div>
 
-                <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+                <div className="space-y-4 max-h-[550px] overflow-y-auto pr-1">
                   {colProblems.map((prob) => (
                     <div
                       key={prob._id}
-                      className="p-4 bg-[#080d1a] border border-slate-800 space-y-2 hover:border-cyan-500/40 transition-all"
+                      className="p-5 bg-[#080d1a] border border-slate-800 space-y-3 hover:border-cyan-500/40 transition-all"
                     >
-                      <h4 className="text-sm font-bold text-white">{prob.problemName}</h4>
+                      <h4 className="text-base font-bold text-white">{prob.problemName}</h4>
                       <div className="flex items-center justify-between text-xs">
-                        <span className="px-2 py-0.5 bg-blue-950 text-blue-400 border border-blue-500/30 font-bold">
+                        <span className="px-2.5 py-1 bg-blue-950 text-blue-400 border border-blue-500/30 font-bold">
                           {prob.pattern}
                         </span>
                         <span
-                          className={`px-2 py-0.5 border font-bold ${
+                          className={`px-2.5 py-1 border font-bold ${
                             prob.difficulty === "Easy"
                               ? "bg-emerald-950 text-emerald-400 border-emerald-500/30"
                               : prob.difficulty === "Medium"
@@ -509,10 +505,10 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
                           {prob.difficulty}
                         </span>
                       </div>
-                      <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs">
+                      <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-bold">
                         <button
                           onClick={() => handleStatusToggle(prob)}
-                          className="text-cyan-400 font-bold hover:underline cursor-pointer"
+                          className="text-cyan-400 hover:underline cursor-pointer"
                         >
                           Move Next →
                         </button>
@@ -537,17 +533,17 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
 
       {/* VIEW 3: GRID VIEW */}
       {activeView === "grid" && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
           {filteredProblems.map((prob) => (
             <div
               key={prob._id}
-              className="p-5 bg-[#0e1626] border border-slate-800 space-y-3 hover:border-cyan-500/40 transition-all"
+              className="p-6 bg-[#0e1626] border border-slate-800 space-y-4 hover:border-cyan-500/40 transition-all"
             >
-              <div className="flex items-start justify-between gap-2">
-                <h4 className="text-base font-bold text-white">{prob.problemName}</h4>
+              <div className="flex items-start justify-between gap-3">
+                <h4 className="text-base sm:text-lg font-bold text-white">{prob.problemName}</h4>
                 <button
                   onClick={() => handleStatusToggle(prob)}
-                  className={`px-2.5 py-1 text-xs font-bold border cursor-pointer ${
+                  className={`px-3 py-1 text-xs font-black border cursor-pointer ${
                     prob.status === "Solved"
                       ? "bg-emerald-950 text-emerald-400 border-emerald-500/40"
                       : "bg-slate-900 text-slate-400 border-slate-700"
@@ -558,11 +554,11 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
               </div>
 
               <div className="flex items-center gap-2 text-xs">
-                <span className="px-2.5 py-1 bg-blue-950 text-blue-400 border border-blue-500/30 font-bold">
+                <span className="px-3 py-1 bg-blue-950 text-blue-400 border border-blue-500/30 font-bold">
                   {prob.pattern}
                 </span>
                 <span
-                  className={`px-2.5 py-1 border font-bold ${
+                  className={`px-3 py-1 border font-bold ${
                     prob.difficulty === "Easy"
                       ? "bg-emerald-950 text-emerald-400 border-emerald-500/30"
                       : prob.difficulty === "Medium"
@@ -575,13 +571,13 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
               </div>
 
               {prob.notes && (
-                <p className="text-xs text-slate-300 bg-[#080d1a] p-3 border border-slate-800 font-mono">
+                <p className="text-xs sm:text-sm text-slate-300 bg-[#080d1a] p-3.5 border border-slate-800 font-mono leading-relaxed">
                   {prob.notes}
                 </p>
               )}
 
               {!readOnly && (
-                <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs font-bold">
+                <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs sm:text-sm font-bold">
                   <button
                     onClick={() => {
                       setActiveNotesProblem(prob);
@@ -612,27 +608,27 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
       {/* Slide-over Notes Drawer */}
       {activeNotesProblem && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-end animate-fade-slide-up">
-          <div className="w-full max-w-lg h-full bg-[#0e1626] border-l border-slate-800 p-6 flex flex-col justify-between shadow-2xl">
+          <div className="w-full max-w-xl h-full bg-[#0e1626] border-l border-slate-800 p-6 sm:p-8 flex flex-col justify-between shadow-2xl">
             <div className="space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <div className="flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-cyan-400" />
-                  <h3 className="text-base font-bold text-white">Implementation Notes</h3>
+              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div className="flex items-center gap-3">
+                  <BookOpen className="w-6 h-6 text-cyan-400" />
+                  <h3 className="text-lg font-black text-white">Implementation Notes</h3>
                 </div>
                 <button onClick={() => setActiveNotesProblem(null)} className="text-slate-400 hover:text-white">
-                  <X className="w-5 h-5" />
+                  <X className="w-6 h-6" />
                 </button>
               </div>
 
               <div>
-                <span className="text-base font-bold text-white block">{activeNotesProblem.problemName}</span>
-                <span className="text-xs text-cyan-400 font-bold">{activeNotesProblem.pattern} • {activeNotesProblem.difficulty}</span>
+                <span className="text-lg font-bold text-white block">{activeNotesProblem.problemName}</span>
+                <span className="text-xs sm:text-sm text-cyan-400 font-bold">{activeNotesProblem.pattern} • {activeNotesProblem.difficulty}</span>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1">Approach & Solution Notes</label>
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Approach & Solution Notes</label>
                 <textarea
-                  rows={12}
+                  rows={14}
                   value={notesText}
                   onChange={(e) => setNotesText(e.target.value)}
                   placeholder="e.g. Use Sliding Window. Maintain left pointer. Time O(N), Space O(1)."
@@ -641,17 +637,17 @@ function ProblemsPage({ problems = [], onRefresh, readOnly = false }) {
               </div>
             </div>
 
-            <div className="flex items-center gap-3 pt-4 border-t border-slate-800">
+            <div className="flex items-center gap-4 pt-6 border-t border-slate-800">
               <button
                 onClick={handleSaveNotes}
                 disabled={savingNotes}
-                className="flex-1 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm shadow cursor-pointer"
+                className="flex-1 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-sm shadow cursor-pointer"
               >
                 {savingNotes ? "Saving..." : "Save Note"}
               </button>
               <button
                 onClick={() => setActiveNotesProblem(null)}
-                className="px-6 py-3 bg-slate-800 text-slate-300 font-bold text-sm hover:bg-slate-700 cursor-pointer"
+                className="px-8 py-3.5 bg-slate-800 text-slate-300 font-bold text-sm hover:bg-slate-700 cursor-pointer"
               >
                 Cancel
               </button>

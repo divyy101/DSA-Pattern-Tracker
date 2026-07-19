@@ -9,7 +9,6 @@ import LeetCodeSync from "./components/LeetCodeSync";
 import AnalyticsPage from "./components/AnalyticsPage";
 import ProblemsPage from "./components/ProblemsPage";
 import UserProfile from "./components/UserProfile";
-import About from "./components/About";
 import { useAppStore } from "./store/useAppStore";
 import api from "./api";
 import { Toaster, toast } from "sonner";
@@ -90,7 +89,7 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-[#0B1120] text-slate-100 flex flex-col font-sans selection:bg-cyan-500/20 selection:text-white">
+      <div className="min-h-screen bg-[#0B1120] text-slate-100 flex flex-col font-sans selection:bg-cyan-500/20 selection:text-white w-full">
         {/* Toast Notifications */}
         <Toaster position="top-right" theme="dark" richColors />
 
@@ -101,7 +100,7 @@ function App() {
         {isLoggedIn && <Navbar onLogout={handleLogout} />}
 
         {/* Main Content Routes */}
-        <div className="flex-1">
+        <div className="flex-1 w-full">
           <Routes>
             <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
 
@@ -156,10 +155,8 @@ function App() {
               }
             />
 
-            {/* 5. About */}
-            <Route path="/about" element={<About />} />
-
-            {/* Legacy Dashboard Redirect */}
+            {/* Legacy Dashboard & About Redirects */}
+            <Route path="/about" element={<Navigate to="/leetcode" replace />} />
             <Route path="/dashboard" element={<Navigate to="/leetcode" replace />} />
 
             <Route path="*" element={<Navigate to="/" replace />} />

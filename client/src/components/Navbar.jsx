@@ -8,7 +8,6 @@ import {
   User,
   LogOut,
   Command,
-  Sparkles,
   Menu,
   X
 } from "lucide-react";
@@ -16,20 +15,19 @@ import codingImg from "../assets/coding.jpeg";
 
 function Navbar({ onLogout }) {
   const navigate = useNavigate();
-  const { user, leetcodeStats, setCommandPaletteOpen } = useAppStore();
+  const { user, setCommandPaletteOpen } = useAppStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const pages = [
     { path: "/leetcode", label: "LeetCode Sync", icon: Flame, color: "text-amber-400 border-amber-500/40 bg-amber-950/40" },
-    { path: "/analytics", label: "Analytics", icon: BarChart3, color: "text-emerald-400 border-emerald-500/40 bg-emerald-950/40" },
-    { path: "/problems", label: "Problems & Tracker", icon: Code2, color: "text-cyan-400 border-cyan-500/40 bg-cyan-950/40" },
+    { path: "/analytics", label: "Analytics", icon: BarChart3, color: "text-[#22D3EE] border-cyan-500/40 bg-cyan-950/40" },
+    { path: "/problems", label: "Problems & Tracker", icon: Code2, color: "text-blue-400 border-blue-500/40 bg-blue-950/40" },
     { path: "/profile", label: "Profile", icon: User, color: "text-purple-400 border-purple-500/40 bg-purple-950/40" },
-    { path: "/about", label: "About", icon: Sparkles, color: "text-slate-300 border-slate-700 bg-slate-800/40" },
   ];
 
   return (
-    <nav className="bg-[#080d1a] border-b border-slate-800 sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <nav className="bg-[#080d1a] border-b border-slate-800 sticky top-0 z-40 w-full">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
           {/* Brand Logo */}
@@ -40,13 +38,13 @@ function Navbar({ onLogout }) {
               className="w-9 h-9 rounded-none object-cover border-2 border-cyan-500/50"
             />
             <div className="flex flex-col">
-              <span className="text-base sm:text-lg font-black text-white group-hover:text-cyan-400 transition-colors tracking-tight">
+              <span className="text-base sm:text-xl font-black text-white group-hover:text-cyan-400 transition-colors tracking-tight">
                 DSA Pattern Tracker
               </span>
             </div>
           </NavLink>
 
-          {/* Navigation Links with Distinct Page Colors */}
+          {/* Navigation Links */}
           <div className="hidden md:flex items-center gap-2">
             {pages.map((page) => {
               const Icon = page.icon;
@@ -55,7 +53,7 @@ function Navbar({ onLogout }) {
                   key={page.path}
                   to={page.path}
                   className={({ isActive }) =>
-                    `px-4 py-2 rounded-none text-sm font-extrabold flex items-center gap-2 transition-all cursor-pointer ${
+                    `px-4 py-2 rounded-none text-sm sm:text-base font-extrabold flex items-center gap-2 transition-all cursor-pointer ${
                       isActive
                         ? `${page.color} border-b-2 font-black shadow-md`
                         : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
@@ -117,9 +115,9 @@ function Navbar({ onLogout }) {
         </div>
       </div>
 
-      {/* Mobile Dropdown */}
+      {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#080d1a] border-b border-slate-800 px-4 pt-2 pb-4 space-y-2">
+        <div className="md:hidden bg-[#080d1a] border-b border-slate-800 px-4 pt-2 pb-4 space-y-2 w-full">
           {pages.map((page) => {
             const Icon = page.icon;
             return (
